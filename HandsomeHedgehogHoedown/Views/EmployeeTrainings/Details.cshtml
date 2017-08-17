@@ -1,0 +1,30 @@
+@model HandsomeHedgehogHoedown.Models.EmployeeTraining
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>EmployeeTraining</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Employee)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Employee.FirstName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.TrainingProgram)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.TrainingProgram.Name)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.EmployeeTrainingId">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>
