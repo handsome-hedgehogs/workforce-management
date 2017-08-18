@@ -54,6 +54,8 @@ namespace HandsomeHedgehogHoedown.Migrations
                     b.Property<int>("EmployeeId")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<DateTime>("DateStart");
+
                     b.Property<int>("DepartmentId");
 
                     b.Property<string>("FirstName")
