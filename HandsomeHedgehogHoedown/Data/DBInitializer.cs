@@ -112,17 +112,17 @@ namespace HandsomeHedgehogHoedown.Data
                 var employeeComputers = new EmployeeComputer[]
                 {
                     new EmployeeComputer{
-                        ComputerId = computers.Single(s => s.PurchaseDate == new DateTime(2017, 08, 01)).ComputerId,
+                        ComputerId = computers.Single(s => s.PurchaseDate == new DateTime(2016, 1, 3)).ComputerId,
                         EmployeeId = employees.Single(s => s.FirstName == "Gucci").EmployeeId,
                         StartDate = DateTime.Now
                     },
                         new EmployeeComputer{
-                        ComputerId = computers.Single(s => s.PurchaseDate == new DateTime(2017, 08, 03)).ComputerId,
+                        ComputerId = computers.Single(s => s.PurchaseDate == new DateTime(1, 1, 1)).ComputerId,
                         EmployeeId = employees.Single(s => s.FirstName == "Waka Flocka").EmployeeId,
                         StartDate = DateTime.Now
                     },
                         new EmployeeComputer{
-                        ComputerId = computers.Single(s => s.PurchaseDate == new DateTime(2017, 08, 06)).ComputerId,
+                        ComputerId = computers.Single(s => s.PurchaseDate == new DateTime(2005, 9, 19)).ComputerId,
                         EmployeeId = employees.Single(s => s.FirstName == "Riff").EmployeeId,
                         StartDate = DateTime.Now
                     }
