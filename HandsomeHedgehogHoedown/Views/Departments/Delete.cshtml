@@ -1,4 +1,4 @@
-@model HandsomeHedgehogHoedown.Models.EmployeeTraining
+@model HandsomeHedgehogHoedown.Models.Department
 
 @{
     ViewData["Title"] = "Delete";
@@ -8,21 +8,15 @@
 
 <h3>Are you sure you want to delete this?</h3>
 <div>
-    <h4>EmployeeTraining</h4>
+    <h4>Department</h4>
     <hr />
     <dl class="dl-horizontal">
-        <input type="hidden" asp-for="EmployeeTrainingId" />
+        <input type="hidden" asp-for="DepartmentId" />
         <dt>
-            @Html.DisplayNameFor(model => model.Employee)
+            @Html.DisplayNameFor(model => model.Name)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.Employee.FirstName)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.TrainingProgram)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.TrainingProgram.Name)
+            @Html.DisplayFor(model => model.Name)
         </dd>
     </dl>
     
