@@ -18,14 +18,14 @@ namespace HandsomeHedgehogHoedown.Controllers
             _context = context;    
         }
 
-        // GET: Employees
+        // GET: Employees1
         public async Task<IActionResult> Index()
         {
             var handsomeHedgehogHoedownContext = _context.Employee.Include(e => e.Department);
             return View(await handsomeHedgehogHoedownContext.ToListAsync());
         }
 
-        // GET: Employees/Details/5
+        // GET: Employees1/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -44,19 +44,19 @@ namespace HandsomeHedgehogHoedown.Controllers
             return View(employee);
         }
 
-        // GET: Employees/Create
+        // GET: Employees1/Create
         public IActionResult Create()
         {
             ViewData["DepartmentId"] = new SelectList(_context.Department, "DepartmentId", "Name");
             return View();
         }
 
-        // POST: Employees/Create
+        // POST: Employees1/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("EmployeeId,FirstName,LastName,DepartmentId")] Employee employee)
+        public async Task<IActionResult> Create([Bind("EmployeeId,FirstName,LastName,StartDate,DepartmentId")] Employee employee)
         {
             if (ModelState.IsValid)
             {
@@ -68,7 +68,7 @@ namespace HandsomeHedgehogHoedown.Controllers
             return View(employee);
         }
 
-        // GET: Employees/Edit/5
+        // GET: Employees1/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -85,12 +85,12 @@ namespace HandsomeHedgehogHoedown.Controllers
             return View(employee);
         }
 
-        // POST: Employees/Edit/5
+        // POST: Employees1/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("EmployeeId,FirstName,LastName,DepartmentId")] Employee employee)
+        public async Task<IActionResult> Edit(int id, [Bind("EmployeeId,FirstName,LastName,StartDate,DepartmentId")] Employee employee)
         {
             if (id != employee.EmployeeId)
             {
@@ -121,7 +121,7 @@ namespace HandsomeHedgehogHoedown.Controllers
             return View(employee);
         }
 
-        // GET: Employees/Delete/5
+        // GET: Employees1/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -140,7 +140,7 @@ namespace HandsomeHedgehogHoedown.Controllers
             return View(employee);
         }
 
-        // POST: Employees/Delete/5
+        // POST: Employees1/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
