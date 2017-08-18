@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using HandsomeHedgehogHoedown.Models;
 
+// this controller manages all actions done on departments
+// authored by : Jason Smith
 namespace HandsomeHedgehogHoedown.Controllers
 {
     public class DepartmentsController : Controller
@@ -34,6 +36,7 @@ namespace HandsomeHedgehogHoedown.Controllers
 
             var department = await _context.Department
                 .SingleOrDefaultAsync(m => m.DepartmentId == id);
+            // populate the list of employees with employees in that department
             department.Employees = _context.Employee.Where(e => e.DepartmentId == id).ToList();
             if (department == null)
             {
