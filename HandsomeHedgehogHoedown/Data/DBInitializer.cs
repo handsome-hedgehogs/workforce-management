@@ -12,30 +12,10 @@ namespace HandsomeHedgehogHoedown.Data
         {
             using (var context = new HandsomeHedgehogHoedownContext(serviceProvider.GetRequiredService<DbContextOptions<HandsomeHedgehogHoedownContext>>()))
             {
-                if (context.Employee.Any())
+                if (context.EmployeeTraining.Any())
                 {
                     return;
                 }
-                var employees = new Employee[]
-                {
-                    new Employee {
-                        FirstName = "Gucci",
-                        LastName = "Mane"
-                    },
-                    new Employee{
-                        FirstName = "Riff",
-                        LastName= "Raff"
-                    },
-                    new Employee{
-                        FirstName = "Waka Flocka",
-                        LastName = "Flame"
-                    }
-                };
-                foreach (Employee i in employees)
-                {
-                    context.Employee.Add(i);
-                }
-                context.SaveChanges();
                 var departments = new Department[]
                 {
                     new Department{
@@ -104,19 +84,47 @@ namespace HandsomeHedgehogHoedown.Data
                     context.TrainingProgram.Add(i);
                 }
                 context.SaveChanges();
+
+                var employees = new Employee[]
+                {
+                    new Employee {
+                        FirstName = "Gucci",
+                        LastName = "Mane",
+                        DepartmentId = departments.Single(s => s.Name == "Management Overhead").DepartmentId
+                    },
+                    new Employee{
+                        FirstName = "Riff",
+                        LastName= "Raff",
+                        DepartmentId = departments.Single(s => s.Name == "Information Technology").DepartmentId
+                    },
+                    new Employee{
+                        FirstName = "Waka Flocka",
+                        LastName = "Flame",
+                        DepartmentId = departments.Single(s => s.Name == "Human Resources").DepartmentId
+                    }
+                };
+                foreach (Employee i in employees)
+                {
+                    context.Employee.Add(i);
+                }
+                context.SaveChanges();
+
                 var employeeComputers = new EmployeeComputer[]
                 {
                     new EmployeeComputer{
-                        ComputerId = computers.Single(s => s.PurchaseDate == new DateTime(2017, 08, 01)).ComputerId,
-                        EmployeeId = employees.Single(s => s.FirstName == "Gucci").EmployeeId
+                        ComputerId = computers.Single(s => s.PurchaseDate == new DateTime(2016, 1, 3)).ComputerId,
+                        EmployeeId = employees.Single(s => s.FirstName == "Gucci").EmployeeId,
+                        StartDate = DateTime.Now
                     },
                         new EmployeeComputer{
-                        ComputerId = computers.Single(s => s.PurchaseDate == new DateTime(2017, 08, 03)).ComputerId,
-                        EmployeeId = employees.Single(s => s.FirstName == "Waka Flocka").EmployeeId
+                        ComputerId = computers.Single(s => s.PurchaseDate == new DateTime(1, 1, 1)).ComputerId,
+                        EmployeeId = employees.Single(s => s.FirstName == "Waka Flocka").EmployeeId,
+                        StartDate = DateTime.Now
                     },
                         new EmployeeComputer{
-                        ComputerId = computers.Single(s => s.PurchaseDate == new DateTime(2017, 08, 06)).ComputerId,
-                        EmployeeId = employees.Single(s => s.FirstName == "Riff").EmployeeId
+                        ComputerId = computers.Single(s => s.PurchaseDate == new DateTime(2005, 9, 19)).ComputerId,
+                        EmployeeId = employees.Single(s => s.FirstName == "Riff").EmployeeId,
+                        StartDate = DateTime.Now
                     }
                 };
                 foreach (EmployeeComputer i in employeeComputers)

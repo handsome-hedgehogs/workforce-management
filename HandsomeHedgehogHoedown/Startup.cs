@@ -9,6 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
 using HandsomeHedgehogHoedown.Models;
+using HandsomeHedgehogHoedown.Data;
 
 namespace HandsomeHedgehogHoedown
 {
@@ -53,6 +54,7 @@ namespace HandsomeHedgehogHoedown
             }
 
             app.UseStaticFiles();
+            DbInitializer.Initialize(app.ApplicationServices);
 
             app.UseMvc(routes =>
             {
