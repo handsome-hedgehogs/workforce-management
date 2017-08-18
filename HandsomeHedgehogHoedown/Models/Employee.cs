@@ -23,6 +23,8 @@ namespace HandsomeHedgehogHoedown.Models
         // FK from Department Table
         [Required]
         public int DepartmentId { get; set; }
+        [Required]
+        public DateTime DateStart { get; set; }
         public Department Department { get; set; }
         // Collection of EmployeeComputers relationships
         public ICollection<EmployeeComputer> EmployeeComputers;

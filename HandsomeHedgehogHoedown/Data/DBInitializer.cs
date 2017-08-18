@@ -77,6 +77,12 @@ namespace HandsomeHedgehogHoedown.Data
                         StartDate = new DateTime(2017, 8, 19),
                         EndDate = new DateTime(2017, 8, 21),
                         MaxCapacity = 3
+                    },
+                    new TrainingProgram{
+                        Name = "Stress Management",
+                        StartDate = new DateTime(2017, 9, 1),
+                        EndDate = new DateTime(2017, 9, 1),
+                        MaxCapacity = 13
                     }
                 };
                 foreach (TrainingProgram i in trainingPrograms)
@@ -90,17 +96,38 @@ namespace HandsomeHedgehogHoedown.Data
                     new Employee {
                         FirstName = "Gucci",
                         LastName = "Mane",
-                        DepartmentId = departments.Single(s => s.Name == "Management Overhead").DepartmentId
+                        DepartmentId = departments.Single(s => s.Name == "Management Overhead").DepartmentId,
+                        DateStart = new DateTime(2015, 1, 3)
                     },
                     new Employee{
                         FirstName = "Riff",
                         LastName= "Raff",
-                        DepartmentId = departments.Single(s => s.Name == "Information Technology").DepartmentId
+                        DepartmentId = departments.Single(s => s.Name == "Information Technology").DepartmentId,
+                        DateStart = new DateTime(2017, 3, 6)
                     },
                     new Employee{
                         FirstName = "Waka Flocka",
                         LastName = "Flame",
-                        DepartmentId = departments.Single(s => s.Name == "Human Resources").DepartmentId
+                        DepartmentId = departments.Single(s => s.Name == "Human Resources").DepartmentId,
+                        DateStart = new DateTime(2016, 12, 30)
+                    },
+                    new Employee{
+                        FirstName = "Eliza",
+                        LastName = "Meeks",
+                        DepartmentId = departments.Single(s => s.Name == "Human Resources").DepartmentId,
+                        DateStart = new DateTime(2017, 6, 13)
+                    },
+                    new Employee{
+                        FirstName = "Jacklyn",
+                        LastName = "Knight",
+                        DepartmentId = departments.Single(s => s.Name == "Human Resources").DepartmentId,
+                        DateStart = new DateTime(2017, 5, 5)
+                    },
+                    new Employee{
+                        FirstName = "Tamela",
+                        LastName = "Lerma",
+                        DepartmentId = departments.Single(s => s.Name == "Human Resources").DepartmentId,
+                        DateStart = new DateTime(2014, 8, 13)
                     }
                 };
                 foreach (Employee i in employees)

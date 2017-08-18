@@ -8,8 +8,8 @@ using HandsomeHedgehogHoedown.Models;
 namespace HandsomeHedgehogHoedown.Migrations
 {
     [DbContext(typeof(HandsomeHedgehogHoedownContext))]
-    [Migration("20170818151556_initialMigration")]
-    partial class initialMigration
+    [Migration("20170818163201_AddedDateSTart")]
+    partial class AddedDateSTart
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -54,6 +54,8 @@ namespace HandsomeHedgehogHoedown.Migrations
                 {
                     b.Property<int>("EmployeeId")
                         .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime>("DateStart");
 
                     b.Property<int>("DepartmentId");
 
