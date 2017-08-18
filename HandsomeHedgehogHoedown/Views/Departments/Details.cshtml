@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 @model HandsomeHedgehogHoedown.Models.Department
 
 @{
@@ -10,33 +9,7 @@
 <ul>
     @foreach(var emp in Model.Employees)
     {
-        <li>@emp.FirstName</li>
+        <li>@emp.FirstName @emp.LastName</li>
     }
 </ul>
 <a asp-action="Index">Back to Department List</a>
-=======
-@model HandsomeHedgehogHoedown.Models.Department
-
-@{
-    ViewData["Title"] = "Details";
-}
-
-<h2>Details</h2>
-
-<div>
-    <h4>Department</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-    </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model.DepartmentId">Edit</a> |
-    <a asp-action="Index">Back to List</a>
-</div>
->>>>>>> 7002c36f75a63c2571696982c7cf172ccf8aa88d
