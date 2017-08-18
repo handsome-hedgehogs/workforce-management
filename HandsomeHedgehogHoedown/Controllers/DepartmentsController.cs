@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using HandsomeHedgehogHoedown.Models;
 
+// this controller manages all actions done on departments
+// authored by : Jason Smith
 namespace HandsomeHedgehogHoedown.Controllers
 {
     public class DepartmentsController : Controller
@@ -34,6 +36,8 @@ namespace HandsomeHedgehogHoedown.Controllers
 
             var department = await _context.Department
                 .SingleOrDefaultAsync(m => m.DepartmentId == id);
+            // populate the list of employees with employees in that department
+            department.Employees = _context.Employee.Where(e => e.DepartmentId == id).ToList();
             if (department == null)
             {
                 return NotFound();
@@ -62,86 +66,6 @@ namespace HandsomeHedgehogHoedown.Controllers
                 return RedirectToAction("Index");
             }
             return View(department);
-        }
-
-        // GET: Departments/Edit/5
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var department = await _context.Department.SingleOrDefaultAsync(m => m.DepartmentId == id);
-            if (department == null)
-            {
-                return NotFound();
-            }
-            return View(department);
-        }
-
-        // POST: Departments/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("DepartmentId,Name")] Department department)
-        {
-            if (id != department.DepartmentId)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(department);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!DepartmentExists(department.DepartmentId))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction("Index");
-            }
-            return View(department);
-        }
-
-        // GET: Departments/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var department = await _context.Department
-                .SingleOrDefaultAsync(m => m.DepartmentId == id);
-            if (department == null)
-            {
-                return NotFound();
-            }
-
-            return View(department);
-        }
-
-        // POST: Departments/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var department = await _context.Department.SingleOrDefaultAsync(m => m.DepartmentId == id);
-            _context.Department.Remove(department);
-            await _context.SaveChangesAsync();
-            return RedirectToAction("Index");
         }
 
         private bool DepartmentExists(int id)
