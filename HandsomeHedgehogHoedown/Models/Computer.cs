@@ -32,7 +32,7 @@ namespace HandsomeHedgehogHoedown.Models
         // DateTime type, denotes date computer is decommissioned, exccessible from edit View on Comuters/Edit.cshtml
         // Added DataAnnotations for Title format and date format   T.L.
         [DataType(DataType.Date)]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:MM/dd/yyyy}")]
         [Display(Name = "Decommissioned")]
         public DateTime? DecommissionedDate { get; set; }
 
