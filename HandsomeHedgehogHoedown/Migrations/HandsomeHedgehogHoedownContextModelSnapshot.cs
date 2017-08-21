@@ -21,6 +21,8 @@ namespace HandsomeHedgehogHoedown.Migrations
                     b.Property<int>("ComputerId")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<DateTime?>("DecommissionedDate");
+
                     b.Property<string>("Make")
                         .IsRequired()
                         .HasMaxLength(20);

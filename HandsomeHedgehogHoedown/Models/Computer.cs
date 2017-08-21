@@ -13,19 +13,34 @@ namespace HandsomeHedgehogHoedown.Models
     {
         // PK
         [Key]
+        [Display(Name ="Computer ID")]
         public int ComputerId { get; set; }
+
         // Denotes Manufacturer name char length limited to 20
         [Required]
         [StringLength(20)]
         public string Manufacturer { get; set; }
+
         // Denotes Make of Computer char length limited to 20
         [Required]
         [StringLength(20)]
         public string Make { get; set; }
+
         // DateTime type, denotes date purchased
         [Required]
+        [Display(Name = "Purchased")]
         public DateTime PurchaseDate { get; set; }
+
+        // DateTime type, denotes date computer is decommissioned, exccessible from edit View on Comuters/Edit.cshtml
+        [DataType(DataType.Date)]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
+        [Display(Name = "Decommissioned")]
+        public DateTime? DecommissionedDate { get; set; }
+
         // Collection from Joined Table EmployeeComputer to list current or passed employees per computer
-        public ICollection<EmployeeComputer> EmployeeComputers { get; set; }
+        public IEnumerable<EmployeeComputer> EmployeeComputers { get; set; }
+
+     
+
     }
 }

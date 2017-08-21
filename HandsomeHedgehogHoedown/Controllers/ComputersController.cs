@@ -130,6 +130,10 @@ namespace HandsomeHedgehogHoedown.Controllers
                 return NotFound();
             }
 
+            if (_context.EmployeeComputer.Any(c => c.ComputerId == id)) {
+                return View();
+            }
+
             return View(computer);
         }
 

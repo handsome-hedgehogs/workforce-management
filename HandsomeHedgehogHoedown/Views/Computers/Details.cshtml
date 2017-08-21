@@ -28,9 +28,24 @@
         <dd>
             @Html.DisplayFor(model => model.PurchaseDate)
         </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.DecommissionedDate)
+        </dt>
+        @if (Model.DecommissionedDate == null)
+        {
+            <dd>
+                Computer is Active
+            </dd>
+        }
+        else { 
+            <dd>
+                @Html.DisplayFor(model => model.DecommissionedDate)
+            </dd>
+        }
     </dl>
 </div>
 <div>
     <a asp-action="Edit" asp-route-id="@Model.ComputerId">Edit</a> |
+    <a asp-action="Delete" asp-route-id="@Model.ComputerId">Delete</a> |
     <a asp-action="Index">Back to List</a>
 </div>
