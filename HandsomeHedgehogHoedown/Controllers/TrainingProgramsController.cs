@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using HandsomeHedgehogHoedown.Models;
+using HandsomeHedgehogHoedown.ViewModels;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace HandsomeHedgehogHoedown.Controllers
 {
@@ -27,19 +29,28 @@ namespace HandsomeHedgehogHoedown.Controllers
         // GET: TrainingPrograms/Details/5
         public async Task<IActionResult> Details(int? id)
         {
+            EmployeeTrainingViewModel employeesTP = new EmployeeTrainingViewModel();
+
             if (id == null)
             {
                 return NotFound();
             }
 
-            var trainingProgram = await _context.TrainingProgram
+            employeesTP.tp = await _context.TrainingProgram.Include(et => et.EmployeeTrainings)
                 .SingleOrDefaultAsync(m => m.TrainingProgramId == id);
-            if (trainingProgram == null)
+
+            foreach (var item in employeesTP.tp.EmployeeTrainings) {
+                Employee employee = await _context.Employee.SingleOrDefaultAsync(e => e.EmployeeId == item.EmployeeId);
+                employeesTP.Employees.Add(employee);
+            }
+
+
+            if (employeesTP.tp == null)
             {
                 return NotFound();
             }
 
-            return View(trainingProgram);
+            return View(employeesTP);
         }
 
         // GET: TrainingPrograms/Create
