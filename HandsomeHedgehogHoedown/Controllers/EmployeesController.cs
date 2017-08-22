@@ -18,14 +18,14 @@ namespace HandsomeHedgehogHoedown.Controllers
             _context = context;    
         }
 
-        // GET: Employees1
+        // GET: Employees
         public async Task<IActionResult> Index()
         {
             var handsomeHedgehogHoedownContext = _context.Employee.Include(e => e.Department);
             return View(await handsomeHedgehogHoedownContext.ToListAsync());
         }
 
-        // GET: Employees1/Details/5
+        // GET: Employees/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -44,14 +44,14 @@ namespace HandsomeHedgehogHoedown.Controllers
             return View(employee);
         }
 
-        // GET: Employees1/Create
+        // GET: Employees/Create
         public IActionResult Create()
         {
             ViewData["DepartmentId"] = new SelectList(_context.Department, "DepartmentId", "Name");
             return View();
         }
 
-        // POST: Employees1/Create
+        // POST: Employees/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -68,7 +68,7 @@ namespace HandsomeHedgehogHoedown.Controllers
             return View(employee);
         }
 
-        // GET: Employees1/Edit/5
+        // GET: Employees/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -85,7 +85,7 @@ namespace HandsomeHedgehogHoedown.Controllers
             return View(employee);
         }
 
-        // POST: Employees1/Edit/5
+        // POST: Employees/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -121,7 +121,7 @@ namespace HandsomeHedgehogHoedown.Controllers
             return View(employee);
         }
 
-        // GET: Employees1/Delete/5
+        // GET: Employees/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -140,7 +140,7 @@ namespace HandsomeHedgehogHoedown.Controllers
             return View(employee);
         }
 
-        // POST: Employees1/Delete/5
+        // POST: Employees/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
