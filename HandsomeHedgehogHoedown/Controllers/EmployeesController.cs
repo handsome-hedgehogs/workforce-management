@@ -202,9 +202,9 @@ namespace HandsomeHedgehogHoedown.Controllers
         private void PopulateComputerDropDownList(object selectedComputer = null)
         {
             var computerQuery = from c in _context.Computer
-                                join ec in _context.EmployeeComputer
-                                on c.ComputerId
-                                equals ec.ComputerId
+                                //join ec in _context.EmployeeComputer
+                                //on c.ComputerId
+                                //equals ec.ComputerId
                                 select c;
             ViewBag.ComputerMake = new SelectList(computerQuery.AsNoTracking(), "ComputerId", "Make",
                 selectedComputer);
