@@ -27,8 +27,8 @@ namespace HandsomeHedgehogHoedown.Models
         public DateTime DateStart { get; set; }
         public Department Department { get; set; }
         // Collection of EmployeeComputers relationships
-        public ICollection<EmployeeComputer> EmployeeComputers;
+        public ICollection<EmployeeComputer> EmployeeComputers { get; set; }
         // Collection of EmployeeTraining relationships
-        public ICollection<EmployeeTraining> EmployeeTrainings;
+        public ICollection<EmployeeTraining> EmployeeTrainings { get; set; }
     }
 }
