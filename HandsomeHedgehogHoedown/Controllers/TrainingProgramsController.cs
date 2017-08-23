@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using HandsomeHedgehogHoedown.Models;
+using HandsomeHedgehogHoedown.ViewModels;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace HandsomeHedgehogHoedown.Controllers
 {
@@ -25,21 +27,39 @@ namespace HandsomeHedgehogHoedown.Controllers
         }
 
         // GET: TrainingPrograms/Details/5
+        // insert viewModel EmplyoyeeTrainingViewModel object insance
+        // ViewModel includes object instance of List<Employee> to add Employee Object that is assigned to a Training Program
+        // Authored by : Tamela Lerma
         public async Task<IActionResult> Details(int? id)
         {
+            EmployeeTrainingViewModel employeesTP = new EmployeeTrainingViewModel();
+
             if (id == null)
             {
                 return NotFound();
             }
 
-            var trainingProgram = await _context.TrainingProgram
+            // use view model instance, call instance of training program model within ViewModel
+            // call TP Model, Include Icollection join table EmployeeTrainings
+            // get Single object that has TrainingProgramId that is equal to id that is passed as argument
+            // this will list details for a single training program  that is selected
+            // Authored by : Tamela Lerma
+            employeesTP.tp = await _context.TrainingProgram.Include(et => et.EmployeeTrainings)
                 .SingleOrDefaultAsync(m => m.TrainingProgramId == id);
-            if (trainingProgram == null)
+            // iterate through ICollection of EmployeeTrainings
+            foreach (var item in employeesTP.tp.EmployeeTrainings) {
+                // create a var of type employee and query Employee table to find EmployeeID that matches an EmployeeID from joined table in ICollection
+                Employee employee = await _context.Employee.SingleOrDefaultAsync(e => e.EmployeeId == item.EmployeeId);
+                // Once employee object is selected, add to List<Employee> Employees on the ViewModel
+                employeesTP.Employees.Add(employee);
+            }
+
+            if (employeesTP.tp == null)
             {
                 return NotFound();
             }
-
-            return View(trainingProgram);
+            // pass ViewModel instance that Includes Joined Table Collection
+            return View(employeesTP);
         }
 
         // GET: TrainingPrograms/Create
