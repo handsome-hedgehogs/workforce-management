@@ -28,7 +28,7 @@
     <tbody>
 @foreach (var item in Model)
 {
-    @if (item.StartDate > DateTime.Now) { 
+    @if (item.StartDate >= DateTime.Today) { 
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.Name)
