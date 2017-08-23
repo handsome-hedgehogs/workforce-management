@@ -95,18 +95,64 @@ namespace HandsomeHedgehogHoedown.Controllers
         // GET: Employees/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+            //if (id == null)
+            //{
+            //    return NotFound();
+            //}
+
+            //var employee = await _context.Employee.SingleOrDefaultAsync(m => m.EmployeeId == id);
+            //if (employee == null)
+            //{
+            //    return NotFound();
+            //}
+            //ViewData["DepartmentId"] = new SelectList(_context.Department, "DepartmentId", "Name", employee.DepartmentId);
+            //return View(employee);
+            EmployeeDetailViewModel empDetail = new EmployeeDetailViewModel();
+
             if (id == null)
             {
                 return NotFound();
             }
 
-            var employee = await _context.Employee.SingleOrDefaultAsync(m => m.EmployeeId == id);
-            if (employee == null)
+            empDetail.Employee = await _context.Employee
+                .Include(e => e.EmployeeComputers)
+                .Include(t => t.EmployeeTrainings)
+                .SingleOrDefaultAsync(m => m.EmployeeId == id);
+            var department = _context.Department;
+            foreach (var d in department)
+            {
+                empDetail.DepartmentList.Add(d);
+            }
+            var computers = _context.Computer;
+            foreach (var c in computers)
+            {
+                empDetail.Computer.Add(c);
+            }
+            //foreach (var item in empDetail.Employee.EmployeeComputers)
+            //{
+            //    Computer computer = await _context.Computer
+            //    .SingleOrDefaultAsync(c => c.ComputerId == item.ComputerId);
+            //    empDetail.Computer.Add(computer);
+            //}
+
+            foreach (var item in empDetail.Employee.EmployeeTrainings)
+            {
+                TrainingProgram trainingProgram = await _context.TrainingProgram
+                .SingleOrDefaultAsync(tp => tp.TrainingProgramId == item.TrainingProgramId);
+                empDetail.TrainingPrograms.Add(trainingProgram);
+            }
+
+            empDetail.Department = await _context.Department
+                .SingleOrDefaultAsync(d => d.DepartmentId == empDetail.Employee.DepartmentId);
+
+
+            if (empDetail == null)
             {
                 return NotFound();
             }
-            ViewData["DepartmentId"] = new SelectList(_context.Department, "DepartmentId", "Name", employee.DepartmentId);
-            return View(employee);
+            PopulateDapartmentsDropDownList(empDetail.Employee.DepartmentId);
+            PopulateComputerDropDownList(empDetail.Computer);
+            return View(empDetail);
         }
 
         // POST: Employees/Edit/5
@@ -143,6 +189,25 @@ namespace HandsomeHedgehogHoedown.Controllers
             }
             ViewData["DepartmentId"] = new SelectList(_context.Department, "DepartmentId", "Name", employee.DepartmentId);
             return View(employee);
+        }
+        //Value currently null, needs to be current employees current dep.
+        private void PopulateDapartmentsDropDownList(object selectedDepartment = null)
+        {
+            var departmentsQuery = from d in _context.Department
+                                   orderby d.Name
+                                   select d;
+            ViewBag.DepartmentId = new SelectList(departmentsQuery.AsNoTracking(), "DepartmentId", "Name", selectedDepartment);
+        }
+
+        private void PopulateComputerDropDownList(object selectedComputer = null)
+        {
+            var computerQuery = from c in _context.Computer
+                                join ec in _context.EmployeeComputer
+                                on c.ComputerId
+                                equals ec.ComputerId
+                                select c;
+            ViewBag.ComputerMake = new SelectList(computerQuery.AsNoTracking(), "ComputerId", "Make",
+                selectedComputer);
         }
 
         // GET: Employees/Delete/5
