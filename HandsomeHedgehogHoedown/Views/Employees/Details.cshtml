@@ -1,8 +1,13 @@
-@model HandsomeHedgehogHoedown.Models.Employee
+@model HandsomeHedgehogHoedown.ViewModels.EmployeeDetailViewModel
 
 @{
     ViewData["Title"] = "Details";
 }
+
+<!-- Authored By: Jackie Knight
+     Employee's Detail page will show the specific employee, their name, department they
+     are in, the computer they are assigned to, which future training program they plan on
+     attending, and which training program they have already attended. -->
 
 <h2>Details</h2>
 
@@ -11,26 +16,83 @@
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.FirstName)
+            @Html.DisplayNameFor(model => model.Employee.FirstName)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.FirstName)
+            @Html.DisplayFor(model => model.Employee.FirstName)
         </dd>
+        
         <dt>
-            @Html.DisplayNameFor(model => model.LastName)
+            @Html.DisplayNameFor(model => model.Employee.LastName)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.LastName)
+            @Html.DisplayFor(model => model.Employee.LastName)
         </dd>
+        
         <dt>
             @Html.DisplayNameFor(model => model.Department)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.Department.Name)
+            @Model.Department.Name
         </dd>
+        
+        <!--JK Loop through Employee Computer and check if the computer has
+            an end date, if it doesn't, then it is assigned to an employee.
+            If assigned, display the make of the computer.-->
+        <dt>
+            @Html.DisplayNameFor(model => model.Employee.EmployeeComputers)
+        </dt>        
+        <dd>
+            @foreach(var comp in Model.Employee.EmployeeComputers)
+            {
+               
+                @if(comp.EndDate == null)
+                {
+                    @comp.Computer.Make
+                }
+
+            }
+        </dd>
+
+        <!--JK Give list of Employee Training Programs, loop through and check if
+            their start date happens after today and if so, list the programs that
+            take place in the future.-->
+        <dt>
+            Future Programs
+        </dt>
+        <dd>
+            @foreach(var futuretp in Model.TrainingPrograms)
+            {
+               
+                @if(futuretp.StartDate > DateTime.Now)
+                {
+                    @futuretp.Name
+                }
+
+            }
+        </dd>
+
+        <!--JK Loop through training programs, and if today's date is greater
+            than the end date of a training program, list out the name of the 
+            program that has already occurred.-->
+        <dt>
+            Attended Programs
+        </dt>
+        <dd>
+            @foreach(var tp in Model.TrainingPrograms)
+            {
+                
+                @if(tp.EndDate < DateTime.Now)
+                {
+                    @tp.Name
+                }
+
+            }
+        </dd>
+
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.EmployeeId">Edit</a> |
+    <a asp-action="Edit" asp-route-id="@Model.Employee.EmployeeId">Edit</a> |
     <a asp-action="Index">Back to List</a>
 </div>

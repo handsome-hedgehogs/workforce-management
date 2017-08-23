@@ -15,20 +15,24 @@ namespace HandsomeHedgehogHoedown.Models
         public int EmployeeId { get; set; }
         [Required]
         [StringLength(20)]
+        [Display(Name ="First Name")]
         public string FirstName { get; set; }
 
         [Required]
         [StringLength(50)]
+        [Display(Name ="Last Name")]
         public string LastName { get; set; }
         // FK from Department Table
         [Required]
         public int DepartmentId { get; set; }
         [Required]
+        [Display(Name ="Start Date")]
         public DateTime DateStart { get; set; }
         public Department Department { get; set; }
         // Collection of EmployeeComputers relationships
-        public ICollection<EmployeeComputer> EmployeeComputers;
+        [Display(Name ="Computers")]
+        public ICollection<EmployeeComputer> EmployeeComputers { get; set; }
         // Collection of EmployeeTraining relationships
-        public ICollection<EmployeeTraining> EmployeeTrainings;
+        public ICollection<EmployeeTraining> EmployeeTrainings { get; set; }
     }
 }

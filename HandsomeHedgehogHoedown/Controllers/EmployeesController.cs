@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using HandsomeHedgehogHoedown.Models;
+using HandsomeHedgehogHoedown.ViewModels;
 
 namespace HandsomeHedgehogHoedown.Controllers
 {
@@ -26,22 +27,45 @@ namespace HandsomeHedgehogHoedown.Controllers
         }
 
         // GET: Employees/Details/5
+        // Authored By: Jackie Knight
+        // Using include to connect join table of EmployeeComputers and EmployeeTrainings
+
         public async Task<IActionResult> Details(int? id)
         {
+            EmployeeDetailViewModel empDetail = new EmployeeDetailViewModel();
+
             if (id == null)
             {
                 return NotFound();
             }
 
-            var employee = await _context.Employee
-                .Include(e => e.Department)
+            empDetail.Employee = await _context.Employee
+                .Include(e => e.EmployeeComputers)
+                .Include(t => t.EmployeeTrainings)
                 .SingleOrDefaultAsync(m => m.EmployeeId == id);
-            if (employee == null)
+            foreach(var item in empDetail.Employee.EmployeeComputers)
+            {
+                Computer computer = await _context.Computer
+                .SingleOrDefaultAsync(c => c.ComputerId == item.ComputerId);
+                empDetail.Computer.Add(computer);  
+            }
+            foreach(var item in empDetail.Employee.EmployeeTrainings)
+            {
+                TrainingProgram trainingProgram = await _context.TrainingProgram
+                .SingleOrDefaultAsync(tp => tp.TrainingProgramId == item.TrainingProgramId);
+                empDetail.TrainingPrograms.Add(trainingProgram);
+            }
+
+            empDetail.Department = await _context.Department
+                .SingleOrDefaultAsync(d => d.DepartmentId == empDetail.Employee.DepartmentId);
+
+
+            if (empDetail == null)
             {
                 return NotFound();
             }
 
-            return View(employee);
+            return View(empDetail);
         }
 
         // GET: Employees/Create
