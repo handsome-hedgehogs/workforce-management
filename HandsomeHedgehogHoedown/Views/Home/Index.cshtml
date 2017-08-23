@@ -20,7 +20,9 @@
             <th>
                 Date Start
             </th>
-            <th></th>
+            <th>
+                Dempartment
+            </th>
         </tr>
     </thead>
     <tbody>
@@ -35,6 +37,9 @@
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.DateStart)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Department.Name)
                 </td>
             </tr>
         }

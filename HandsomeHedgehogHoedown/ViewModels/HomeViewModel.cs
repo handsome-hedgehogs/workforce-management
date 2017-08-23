@@ -12,5 +12,6 @@ namespace HandsomeHedgehogHoedown.ViewModels
     {
         public IEnumerable<Employee> Employees;
         public IEnumerable<TrainingProgram> TrainingPrograms;
+
     }
 }

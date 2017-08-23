@@ -23,9 +23,14 @@ namespace HandsomeHedgehogHoedown.Controllers
         //Populates the view model with the correct data and then returns the data to the view.
         public IActionResult Index()
         {
+
             var model = new HomeViewModel();
             model.Employees = _context.Employee.OrderByDescending(o => o.DateStart).Take(5).ToList();
             model.TrainingPrograms = _context.TrainingProgram.Where(o => DateTime.Now <= o.StartDate && DateTime.Now.AddDays(28) >= o.StartDate).ToList();
+            foreach (var em in model.Employees)
+            {
+                em.Department = _context.Department.SingleOrDefault(d => d.DepartmentId == em.DepartmentId);
+            }
             return View(model);
         }
     }
