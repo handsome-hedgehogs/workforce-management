@@ -49,7 +49,8 @@ namespace HandsomeHedgehogHoedown.Data
                     new Computer{
                         Manufacturer = "Da Best",
                         Make = "poopmachine",
-                        PurchaseDate = new DateTime(2005, 9, 19)
+                        PurchaseDate = new DateTime(2005, 9, 19),
+                        DecommissionedDate = new DateTime(2017, 3, 3)
                     }
                 };
                 foreach (Computer i in computers)

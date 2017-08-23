@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using HandsomeHedgehogHoedown.Models;
 
@@ -53,7 +52,7 @@ namespace HandsomeHedgehogHoedown.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ComputerId,Manufacturer,Make,PurchaseDate")] Computer computer)
+        public async Task<IActionResult> Create([Bind("ComputerId,Manufacturer,Make,PurchaseDate,DecommissionedDate")] Computer computer)
         {
             if (ModelState.IsValid)
             {
@@ -85,7 +84,7 @@ namespace HandsomeHedgehogHoedown.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ComputerId,Manufacturer,Make,PurchaseDate")] Computer computer)
+        public async Task<IActionResult> Edit(int id, [Bind("ComputerId,Manufacturer,Make,PurchaseDate,DecommissionedDate")] Computer computer)
         {
             if (id != computer.ComputerId)
             {
@@ -128,6 +127,10 @@ namespace HandsomeHedgehogHoedown.Controllers
             if (computer == null)
             {
                 return NotFound();
+            }
+
+            if (_context.EmployeeComputer.Any(c => c.ComputerId == id)) {
+                return View();
             }
 
             return View(computer);

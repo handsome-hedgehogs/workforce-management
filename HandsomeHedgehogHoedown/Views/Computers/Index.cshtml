@@ -5,43 +5,56 @@
 }
 
 <h2>Index</h2>
+        <div class="row">
+            <div class="col-md-2">
+                <strong> @Html.DisplayNameFor(model => model.Manufacturer)</strong>
+            </div>
+            <div class="col-md-2">
+                <strong> @Html.DisplayNameFor(model => model.Make)</strong>
+            </div>
+            <div class="col-md-2">
+                <strong> @Html.DisplayNameFor(model => model.PurchaseDate)</strong>
+            </div>
+            <div class="col-md-2">
+                <strong> @Html.DisplayNameFor(model => model.DecommissionedDate)</strong>
+            </div>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.Manufacturer)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Make)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.PurchaseDate)
-                </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
+        </div>
+@*foreach to display all items in table and if to check for decommission date
+Authored by : Tamela Lerma*@
 @foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Manufacturer)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Make)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PurchaseDate)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.ComputerId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.ComputerId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.ComputerId">Delete</a>
-            </td>
-        </tr>
+ 
+        <div class="row"> 
+                <a asp-action="Details" asp-route-id="@item.ComputerId">
+                <div class="col-md-2">
+                    @Html.DisplayFor(modelItem => item.Manufacturer)
+                </div>
+                <div class="col-md-2">
+
+                    @Html.DisplayFor(modelItem => item.Make)
+                </div>
+                <div class="col-md-2">
+                    @Html.DisplayFor(modelItem => item.PurchaseDate)
+                </div>
+                @if (item.DecommissionedDate == null)
+                {
+                    <div class="col-md-2">
+                        Computer is Active
+                    </div>
+                }
+                else
+                {
+                    <div class="col-md-2">
+                        @Html.DisplayFor(modelItem => item.DecommissionedDate)
+                    </div>
+                }
+                </a>
+                <div class="col-md-4">
+                    <a asp-action="Edit" asp-route-id="@item.ComputerId">Edit</a> |
+                    <a asp-action="Delete" asp-route-id="@item.ComputerId">Delete</a>
+                </div>
+        </div>
 }
-    </tbody>
-</table>
+        <p>
+            <a asp-action="Create">Create New</a>
+        </p>
