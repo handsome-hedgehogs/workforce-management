@@ -152,6 +152,7 @@ namespace HandsomeHedgehogHoedown.Controllers
             }
             PopulateDapartmentsDropDownList(empDetail.Employee.DepartmentId);
             PopulateComputerDropDownList(empDetail.Computer);
+            PopulateTrainingDropDownList();
             return View(empDetail);
         }
 
@@ -208,6 +209,14 @@ namespace HandsomeHedgehogHoedown.Controllers
                                 select c;
             ViewBag.ComputerMake = new SelectList(computerQuery.AsNoTracking(), "ComputerId", "Make",
                 selectedComputer);
+        }
+
+        private void PopulateTrainingDropDownList()
+        {
+            var trainingProgramQuery = from tp in _context.TrainingProgram
+                                       where tp.StartDate > DateTime.Now
+                                       select tp.Name;
+            ViewBag.TrainingProgram = new SelectList(trainingProgramQuery.AsNoTracking(), "Name");
         }
 
         // GET: Employees/Delete/5
