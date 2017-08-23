@@ -1,2 +1,75 @@
 ﻿@model HandsomeHedgehogHoedown.ViewModels.HomeViewModel
 
+    <!--Written by Eliza Meeks-->
+<!--Last 5 employees added to the system, and the department they are assigned to -->
+<!--List of upcoming training programs that are starting in the next four weeks from the current day -->
+
+<h2>Welcome to Bangazon!</h2>
+
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                First Name
+            </th>
+            <th>
+                Last Name
+            </th>
+            <th>
+                Date Start
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Employees)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FirstName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LastName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DateStart)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Training Program
+            </th>
+            <th>
+                Date Start
+            </th>
+            <th>
+                Max Capacity
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.TrainingPrograms)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.StartDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MaxCapacity)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
