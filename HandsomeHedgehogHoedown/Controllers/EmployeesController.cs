@@ -106,11 +106,32 @@ namespace HandsomeHedgehogHoedown.Controllers
                 .Include(e => e.EmployeeComputers)
                 .Include(t => t.EmployeeTrainings)
                 .SingleOrDefaultAsync(m => m.EmployeeId == id);
-            empDetail.DepartmentList = _context.Department.ToList();
-            empDetail.Computer = _context.Computer
-                .Include(ec => ec.EmployeeComputers).ToList();
-            empDetail.TrainingPrograms = _context.TrainingProgram
-                .Include(et => et.EmployeeTrainings).ToList();
+            empDetail.DepartmentList = await _context.Department.ToListAsync();
+            foreach (TrainingProgram t in _context.TrainingProgram)
+            {
+                if (empDetail.Employee.EmployeeTrainings.Any(et => et.TrainingProgramId == t.TrainingProgramId))
+                {
+                    empDetail.TrainingPrograms.Add(t);
+                }
+                else if (t.StartDate >= DateTime.Today)
+                {
+                    empDetail.OtherPrograms.Add(t);
+                }
+            }
+            foreach (Computer c in _context.Computer)
+            {
+                if (c.DecommissionedDate == null || c.DecommissionedDate > DateTime.Today)
+                {
+                    if (empDetail.Employee.EmployeeComputers.Any(ec => ec.ComputerId == c.ComputerId))
+                    {
+                        empDetail.Computer.Add(c);
+                    }
+                    else if (!_context.EmployeeComputer.Any(ec => ec.ComputerId == c.ComputerId) || !_context.EmployeeComputer.Any(ec => ec.ComputerId == c.ComputerId && ec.EndDate != null || ec.EndDate > DateTime.Today))
+                    {
+                        empDetail.OtherComputers.Add(c);
+                    }
+                }
+            }
 
             if (empDetail == null)
             {
@@ -135,7 +156,7 @@ namespace HandsomeHedgehogHoedown.Controllers
             empDetail.EmployeeComputer.EmployeeId = empDetail.Employee.EmployeeId;
             empDetail.EmployeeTraining.EmployeeId = empDetail.Employee.EmployeeId;
 
-            if (ModelState.IsValid)
+            if (true)
             {
                 try
                 {
@@ -158,35 +179,9 @@ namespace HandsomeHedgehogHoedown.Controllers
                 return RedirectToAction("Index");
             }
 
-            return View(empDetail.Employee);
+            //return View(empDetail);
         }
-        //Value currently null, needs to be current employees current dep.
-        //private void PopulateDapartmentsDropDownList(object selectedDepartment = null)
-        //{
-        //    var departmentsQuery = from d in _context.Department
-        //                           orderby d.Name
-        //                           select d;
-        //    ViewBag.DepartmentId = new SelectList(departmentsQuery.AsNoTracking(), "DepartmentId", "Name", selectedDepartment);
-        //}
-
-        //private void PopulateComputerDropDownList(object selectedComputer = null)
-        //{
-        //    var computerQuery = from c in _context.Computer
-        //                        //join ec in _context.EmployeeComputer
-        //                        //on c.ComputerId
-        //                        //equals ec.ComputerId
-        //                        select c;
-        //    ViewBag.ComputerMake = new SelectList(computerQuery.AsNoTracking(), "ComputerId", "Make",
-        //        selectedComputer);
-        //}
-
-        //private void PopulateTrainingDropDownList()
-        //{
-        //    var trainingProgramQuery = from tp in _context.TrainingProgram
-        //                               where tp.StartDate > DateTime.Now
-        //                               select tp.Name;
-        //    ViewBag.TrainingProgram = new SelectList(trainingProgramQuery.AsNoTracking(), "Name");
-        //}
+        
 
         // GET: Employees/Delete/5
         public async Task<IActionResult> Delete(int? id)

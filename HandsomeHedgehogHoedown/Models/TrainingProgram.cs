@@ -16,11 +16,13 @@ namespace HandsomeHedgehogHoedown.Models
         public string Name { get; set; }
 
         [Required]
-        [Display(Name="Start Date")]
+        [DataType(DataType.Date)]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:MM/dd/yyyy}")]
+        [Display(Name="Start Date")]
         public DateTime StartDate { get; set; }
 
         [Required]
+        [DataType(DataType.Date)]
         [Display(Name="End Date")]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:MM/dd/yyyy}")]
         public DateTime EndDate { get; set; }

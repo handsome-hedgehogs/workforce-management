@@ -26,6 +26,8 @@ namespace HandsomeHedgehogHoedown.Models
         [Required]
         public int DepartmentId { get; set; }
         [Required]
+        [DataType(DataType.Date)]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:MM/dd/yyyy}")]
         [Display(Name ="Start Date")]
         public DateTime DateStart { get; set; }
         public Department Department { get; set; }

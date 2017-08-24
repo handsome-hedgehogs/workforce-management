@@ -8,6 +8,8 @@
         <hr />
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <input type="hidden" asp-for="Employee.EmployeeId" />
+        <input type="hidden" asp-for="EmployeeTraining" />
+        <input type="hidden" asp-for="EmployeeComputer" />
         <input type="hidden" asp-for="Employee.FirstName" />
         <div class="form-group">
             <label asp-for="Employee.LastName" class="col-md-2 control-label"></label>
@@ -29,43 +31,47 @@
 
             }
         }
-        @Html.Label("Departments")
-        @Html.DropDownListFor(x => x.Employee.DepartmentId, departmetListItems, "Select a Department")
-        <br />
+        @{
+            List<SelectListItem> trainingListItems = new List<SelectListItem>();
+            foreach (var prog in Model.OtherPrograms)
+            {
+                trainingListItems.Add(new SelectListItem
+                {
+                    Text = prog.Name,
+                    Value = prog.TrainingProgramId.ToString()
+                });
+
+            }
+        }
         @{ 
             List<SelectListItem> computerListItems = new List<SelectListItem>();
-            foreach(var comp in Model.Computer)
+            foreach(var comp in Model.OtherComputers)
             {
                 computerListItems.Add(new SelectListItem
                 {
-                    Text = comp.Make,
+                    Text = comp.Manufacturer + " " + comp.Make,
                     Value = comp.ComputerId.ToString()
-
                 });
-
             }
         }
-        
-        @Html.Label("Computers")
-        
-        @Html.DropDownListFor(x => x.EmployeeComputer.ComputerId, computerListItems, "Select a Computer")
+        @Html.Label("Departments")
+        @Html.DropDownListFor(x => x.Employee.DepartmentId, departmetListItems, "Select a Department")
         <br />
-        
-        @{ 
-            List<SelectListItem> programListItems = new List<SelectListItem>();
-            foreach(var tpro in Model.TrainingPrograms)
-            {
-                programListItems.Add(new SelectListItem
-                {
-                    Text = tpro.Name,
-                    Value = tpro.TrainingProgramId.ToString()
-
-                });
-
-            }
+        @Html.Label("Computers")
+        @Html.DropDownListFor(x => x.EmployeeComputer.ComputerId, computerListItems, "Select a Computer")
+        <br /><b>@Model.Employee.FirstName @Model.Employee.LastName's Computers</b>
+        @foreach(var comp in Model.Computer)
+        {
+            <div>@comp.Manufacturer @comp.Make</div>
         }
+        <br />
         @Html.Label("Training Programs")
-        @Html.DropDownListFor(x => x.EmployeeTraining.TrainingProgramId, programListItems, "Select a Training Program")
+        @Html.DropDownListFor(x => x.EmployeeTraining.TrainingProgramId, trainingListItems, "Select a Training Program")
+        <br /><b>@Model.Employee.FirstName @Model.Employee.LastName's Training Programs</b>
+        @foreach (var prog in Model.TrainingPrograms)
+        {
+            <div>@prog.Name</div>
+        }
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" value="Save" class="btn btn-default" />
