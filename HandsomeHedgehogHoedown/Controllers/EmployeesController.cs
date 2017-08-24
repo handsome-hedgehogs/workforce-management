@@ -43,7 +43,8 @@ namespace HandsomeHedgehogHoedown.Controllers
                 .Include(e => e.EmployeeComputers)
                 .Include(t => t.EmployeeTrainings)
                 .SingleOrDefaultAsync(m => m.EmployeeId == id);
-            foreach(var item in empDetail.Employee.EmployeeComputers)
+            
+            foreach (var item in empDetail.Employee.EmployeeComputers)
             {
                 Computer computer = await _context.Computer
                 .SingleOrDefaultAsync(c => c.ComputerId == item.ComputerId);

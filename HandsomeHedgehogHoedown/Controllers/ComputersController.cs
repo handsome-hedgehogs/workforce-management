@@ -96,6 +96,12 @@ namespace HandsomeHedgehogHoedown.Controllers
                 try
                 {
                     _context.Update(computer);
+                    if(computer.DecommissionedDate != null)
+                    {
+                        EmployeeComputer ec = await _context.EmployeeComputer.LastAsync(c => c.ComputerId == computer.ComputerId);
+                        ec.EndDate = computer.DecommissionedDate;
+                        _context.Update(ec);
+                    }
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)

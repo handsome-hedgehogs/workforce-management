@@ -4,18 +4,30 @@
     ViewData["Title"] = "Index";
 }
 
+
 <h2>Departments</h2>
 
-<div class="container-fluid">
-    @foreach (var item in Model)
-    {
-        <a asp-action="Details" asp-route-id="@item.DepartmentId">
-            <div class="row">
-                @Html.DisplayFor(modelItem => item.Name)
-            </div>
-        </a>
-    }
-</div>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    <a asp-action="Details" asp-route-id="@item.DepartmentId">
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </a>
+                </td>
+                <td></td>
+            </tr>
+        }
+    </tbody>
+</table>
 <p>
     <a asp-action="Create">Create New</a>
 </p>
