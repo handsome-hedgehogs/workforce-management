@@ -98,7 +98,7 @@ namespace HandsomeHedgehogHoedown.Controllers
                     _context.Update(computer);
                     if(computer.DecommissionedDate != null)
                     {
-                        EmployeeComputer ec = await _context.EmployeeComputer.LastAsync(c => c.ComputerId == computer.ComputerId);
+                        EmployeeComputer ec = await _context.EmployeeComputer.LastOrDefaultAsync(c => c.ComputerId == computer.ComputerId);
                         ec.EndDate = computer.DecommissionedDate;
                         _context.Update(ec);
                     }
