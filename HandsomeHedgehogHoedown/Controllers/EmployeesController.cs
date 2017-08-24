@@ -95,10 +95,12 @@ namespace HandsomeHedgehogHoedown.Controllers
         // GET: Employees/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            //if (id == null)
-            //{
-            //    return NotFound();
-            //}
+            EmployeeDetailViewModel empDetail = new EmployeeDetailViewModel();
+
+            if (id == null)
+            {
+                return NotFound();
+            }
 
             //var employee = await _context.Employee.SingleOrDefaultAsync(m => m.EmployeeId == id);
             //if (employee == null)
@@ -107,27 +109,15 @@ namespace HandsomeHedgehogHoedown.Controllers
             //}
             //ViewData["DepartmentId"] = new SelectList(_context.Department, "DepartmentId", "Name", employee.DepartmentId);
             //return View(employee);
-            EmployeeDetailViewModel empDetail = new EmployeeDetailViewModel();
 
-            if (id == null)
-            {
-                return NotFound();
-            }
 
             empDetail.Employee = await _context.Employee
                 .Include(e => e.EmployeeComputers)
                 .Include(t => t.EmployeeTrainings)
                 .SingleOrDefaultAsync(m => m.EmployeeId == id);
-            var department = _context.Department;
-            foreach (var d in department)
-            {
-                empDetail.DepartmentList.Add(d);
-            }
-            var computers = _context.Computer;
-            foreach (var c in computers)
-            {
-                empDetail.Computer.Add(c);
-            }
+            empDetail.DepartmentList = _context.Department.ToList();
+            empDetail.Computer = _context.Computer
+                .Include(ec => ec.EmployeeComputers).ToList();
             //foreach (var item in empDetail.Employee.EmployeeComputers)
             //{
             //    Computer computer = await _context.Computer
@@ -150,9 +140,9 @@ namespace HandsomeHedgehogHoedown.Controllers
             {
                 return NotFound();
             }
-            PopulateDapartmentsDropDownList(empDetail.Employee.DepartmentId);
-            PopulateComputerDropDownList(empDetail.Computer);
-            PopulateTrainingDropDownList();
+            //PopulateDapartmentsDropDownList(empDetail.Employee.DepartmentId);
+            //PopulateComputerDropDownList(empDetail.Computer);
+            //PopulateTrainingDropDownList();
             return View(empDetail);
         }
 
@@ -192,32 +182,32 @@ namespace HandsomeHedgehogHoedown.Controllers
             return View(employee);
         }
         //Value currently null, needs to be current employees current dep.
-        private void PopulateDapartmentsDropDownList(object selectedDepartment = null)
-        {
-            var departmentsQuery = from d in _context.Department
-                                   orderby d.Name
-                                   select d;
-            ViewBag.DepartmentId = new SelectList(departmentsQuery.AsNoTracking(), "DepartmentId", "Name", selectedDepartment);
-        }
+        //private void PopulateDapartmentsDropDownList(object selectedDepartment = null)
+        //{
+        //    var departmentsQuery = from d in _context.Department
+        //                           orderby d.Name
+        //                           select d;
+        //    ViewBag.DepartmentId = new SelectList(departmentsQuery.AsNoTracking(), "DepartmentId", "Name", selectedDepartment);
+        //}
 
-        private void PopulateComputerDropDownList(object selectedComputer = null)
-        {
-            var computerQuery = from c in _context.Computer
-                                //join ec in _context.EmployeeComputer
-                                //on c.ComputerId
-                                //equals ec.ComputerId
-                                select c;
-            ViewBag.ComputerMake = new SelectList(computerQuery.AsNoTracking(), "ComputerId", "Make",
-                selectedComputer);
-        }
+        //private void PopulateComputerDropDownList(object selectedComputer = null)
+        //{
+        //    var computerQuery = from c in _context.Computer
+        //                        //join ec in _context.EmployeeComputer
+        //                        //on c.ComputerId
+        //                        //equals ec.ComputerId
+        //                        select c;
+        //    ViewBag.ComputerMake = new SelectList(computerQuery.AsNoTracking(), "ComputerId", "Make",
+        //        selectedComputer);
+        //}
 
-        private void PopulateTrainingDropDownList()
-        {
-            var trainingProgramQuery = from tp in _context.TrainingProgram
-                                       where tp.StartDate > DateTime.Now
-                                       select tp.Name;
-            ViewBag.TrainingProgram = new SelectList(trainingProgramQuery.AsNoTracking(), "Name");
-        }
+        //private void PopulateTrainingDropDownList()
+        //{
+        //    var trainingProgramQuery = from tp in _context.TrainingProgram
+        //                               where tp.StartDate > DateTime.Now
+        //                               select tp.Name;
+        //    ViewBag.TrainingProgram = new SelectList(trainingProgramQuery.AsNoTracking(), "Name");
+        //}
 
         // GET: Employees/Delete/5
         public async Task<IActionResult> Delete(int? id)
