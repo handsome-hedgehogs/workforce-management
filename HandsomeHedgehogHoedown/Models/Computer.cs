@@ -25,8 +25,9 @@ namespace HandsomeHedgehogHoedown.Models
         public string Make { get; set; }
 
         // DateTime type, denotes date purchased
-        [Required]
-        [Display(Name = "Purchased")]
+        [DataType(DataType.Date)]
+        [Display(Name = "Date Purchased")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:MM/dd/yyyy}")]
         public DateTime PurchaseDate { get; set; }
 
         // DateTime type, denotes date computer is decommissioned, exccessible from edit View on Comuters/Edit.cshtml

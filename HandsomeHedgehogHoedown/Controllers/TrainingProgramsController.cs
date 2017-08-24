@@ -135,35 +135,6 @@ namespace HandsomeHedgehogHoedown.Controllers
             return View(trainingProgram);
         }
 
-        // GET: TrainingPrograms/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var trainingProgram = await _context.TrainingProgram
-                .SingleOrDefaultAsync(m => m.TrainingProgramId == id);
-            if (trainingProgram == null)
-            {
-                return NotFound();
-            }
-
-            return View(trainingProgram);
-        }
-
-        // POST: TrainingPrograms/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var trainingProgram = await _context.TrainingProgram.SingleOrDefaultAsync(m => m.TrainingProgramId == id);
-            _context.TrainingProgram.Remove(trainingProgram);
-            await _context.SaveChangesAsync();
-            return RedirectToAction("Index");
-        }
-
         private bool TrainingProgramExists(int id)
         {
             return _context.TrainingProgram.Any(e => e.TrainingProgramId == id);
