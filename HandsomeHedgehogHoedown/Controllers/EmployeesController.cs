@@ -95,21 +95,12 @@ namespace HandsomeHedgehogHoedown.Controllers
         // GET: Employees/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            EmployeeDetailViewModel empDetail = new EmployeeDetailViewModel();
+            EditEmployeeViewModel empDetail = new EditEmployeeViewModel();
 
             if (id == null)
             {
                 return NotFound();
             }
-
-            //var employee = await _context.Employee.SingleOrDefaultAsync(m => m.EmployeeId == id);
-            //if (employee == null)
-            //{
-            //    return NotFound();
-            //}
-            //ViewData["DepartmentId"] = new SelectList(_context.Department, "DepartmentId", "Name", employee.DepartmentId);
-            //return View(employee);
-
 
             empDetail.Employee = await _context.Employee
                 .Include(e => e.EmployeeComputers)
@@ -120,31 +111,12 @@ namespace HandsomeHedgehogHoedown.Controllers
                 .Include(ec => ec.EmployeeComputers).ToList();
             empDetail.TrainingPrograms = _context.TrainingProgram
                 .Include(et => et.EmployeeTrainings).ToList();
-            //foreach (var item in empDetail.Employee.EmployeeComputers)
-            //{
-            //    Computer computer = await _context.Computer
-            //    .SingleOrDefaultAsync(c => c.ComputerId == item.ComputerId);
-            //    empDetail.Computer.Add(computer);
-            //}
-
-            //foreach (var item in empDetail.Employee.EmployeeTrainings)
-            //{
-            //    TrainingProgram trainingProgram = await _context.TrainingProgram
-            //    .SingleOrDefaultAsync(tp => tp.TrainingProgramId == item.TrainingProgramId);
-            //    empDetail.TrainingPrograms.Add(trainingProgram);
-            //}
-
-            //empDetail.Department = await _context.Department
-            //    .SingleOrDefaultAsync(d => d.DepartmentId == empDetail.Employee.DepartmentId);
-
 
             if (empDetail == null)
             {
                 return NotFound();
             }
-            //PopulateDapartmentsDropDownList(empDetail.Employee.DepartmentId);
-            //PopulateComputerDropDownList(empDetail.Computer);
-            //PopulateTrainingDropDownList();
+
             return View(empDetail);
         }
 
@@ -153,23 +125,28 @@ namespace HandsomeHedgehogHoedown.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("EmployeeId,FirstName,LastName,DepartmentId,DateStart")] Employee employee)
+        public async Task<IActionResult> Edit(int id, EditEmployeeViewModel empDetail)
         {
-            if (id != employee.EmployeeId)
+            if (id != empDetail.Employee.EmployeeId)
             {
                 return NotFound();
             }
+            
+            empDetail.EmployeeComputer.EmployeeId = empDetail.Employee.EmployeeId;
+            empDetail.EmployeeTraining.EmployeeId = empDetail.Employee.EmployeeId;
 
             if (ModelState.IsValid)
             {
                 try
                 {
-                    _context.Update(employee);
+                    _context.Update(empDetail.Employee);
+                    _context.Add(empDetail.EmployeeTraining);
+                    _context.Add(empDetail.EmployeeComputer);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!EmployeeExists(employee.EmployeeId))
+                    if (!EmployeeExists(empDetail.Employee.EmployeeId))
                     {
                         return NotFound();
                     }
@@ -180,8 +157,8 @@ namespace HandsomeHedgehogHoedown.Controllers
                 }
                 return RedirectToAction("Index");
             }
-            ViewData["DepartmentId"] = new SelectList(_context.Department, "DepartmentId", "Name", employee.DepartmentId);
-            return View(employee);
+
+            return View(empDetail.Employee);
         }
         //Value currently null, needs to be current employees current dep.
         //private void PopulateDapartmentsDropDownList(object selectedDepartment = null)

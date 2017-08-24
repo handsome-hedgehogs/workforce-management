@@ -9,19 +9,22 @@ namespace HandsomeHedgehogHoedown.ViewModels
     public class EditEmployeeViewModel
     {
         public Employee Employee { get; set; }
-        public IEnumerable<Department> Departments { get; set; }
-        public IEnumerable<Computer> Computers { get; set; }
-        public IEnumerable<TrainingProgram> TrainingPrograms { get; set; }
-        public EditEmployeeViewModel (Employee employee)
+
+        public EmployeeComputer EmployeeComputer { get; set; }
+
+        public EmployeeTraining EmployeeTraining { get; set; }
+
+        public List<Department> DepartmentList { get; set; }
+
+        public List<Computer> Computer { get; set; }
+
+        public List<TrainingProgram> TrainingPrograms { get; set; }
+
+        public EditEmployeeViewModel()
         {
-            Employee = employee;
-
-            Departments = new List<Department>();
-
-            Computers = new List<Computer>();
-
+            DepartmentList = new List<Department>();
+            Computer = new List<Computer>();
             TrainingPrograms = new List<TrainingProgram>();
-
         }
     }
 }
