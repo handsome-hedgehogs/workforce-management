@@ -107,26 +107,30 @@ namespace HandsomeHedgehogHoedown.Controllers
                 .Include(e => e.EmployeeComputers)
                 .Include(t => t.EmployeeTrainings)
                 .SingleOrDefaultAsync(m => m.EmployeeId == id);
-            empDetail.DepartmentList = await _context.Department.ToListAsync();
+            empDetail.Department = await _context.Department.SingleOrDefaultAsync(d => d.DepartmentId == empDetail.Employee.DepartmentId);
+            empDetail.DepartmentList = await _context.Department.Where(d => d.DepartmentId != empDetail.Employee.DepartmentId).ToListAsync();
             foreach(TrainingProgram t in _context.TrainingProgram)
             {
                 if(empDetail.Employee.EmployeeTrainings.Any(et => et.TrainingProgramId == t.TrainingProgramId))
                 {
                     empDetail.TrainingPrograms.Add(t);
-                } else
+                } else if(t.StartDate >= DateTime.Today)
                 {
                     empDetail.OtherPrograms.Add(t);
                 }
             }
             foreach (Computer c in _context.Computer)
             {
-                if (empDetail.Employee.EmployeeComputers.Any(ec => ec.ComputerId == c.ComputerId))
+                if (c.DecommissionedDate == null || c.DecommissionedDate > DateTime.Today)
                 {
-                    empDetail.Computer.Add(c);
-                }
-                else if(!_context.EmployeeComputer.Any(ec => ec.ComputerId == c.ComputerId) || !_context.EmployeeComputer.Any(ec => ec.EndDate != null && ec.ComputerId == c.ComputerId))
-                {
-                    empDetail.OtherComputers.Add(c);
+                    if (empDetail.Employee.EmployeeComputers.Any(ec => ec.ComputerId == c.ComputerId))
+                    {
+                        empDetail.Computer.Add(c);
+                    }
+                    else if (!_context.EmployeeComputer.Any(ec => ec.ComputerId == c.ComputerId) || !_context.EmployeeComputer.Any(ec => ec.ComputerId == c.ComputerId && ec.EndDate != null || ec.EndDate > DateTime.Today))
+                    {
+                        empDetail.OtherComputers.Add(c);
+                    }
                 }
             }
 

@@ -55,7 +55,7 @@
                 });
             }
         }
-        @Html.DropDownList("Departments", departmetListItems, "Select a Department")
+        @Html.DropDownList("Departments", departmetListItems, Model.Department.Name)
         
         @Html.DropDownList("Computers", computerListItems, "Select a Computer")
         @foreach(var comp in Model.Computer)
