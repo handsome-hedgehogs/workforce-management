@@ -22,10 +22,16 @@ namespace HandsomeHedgehogHoedown.ViewModels
 
         public List<TrainingProgram> TrainingPrograms { get; set; }
 
+        public List<TrainingProgram> OtherPrograms { get; set; }
+
+        public List<Computer> OtherComputers { get; set; }
+
         public EmployeeDetailViewModel()
         {
             DepartmentList = new List<Department>();
             Computer = new List<Computer>();
+            OtherComputers = new List<Computer>();
+            OtherPrograms = new List<TrainingProgram>();
             TrainingPrograms = new List<TrainingProgram>();
         }
     }

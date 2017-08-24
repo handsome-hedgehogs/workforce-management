@@ -12,13 +12,6 @@
         <hr />
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <input type="hidden" asp-for="Employee.EmployeeId" />
-        @*<div class="form-group">
-            <label asp-for="FirstName" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <input asp-for="FirstName" class="form-control" />
-                <span asp-validation-for="FirstName" class="text-danger"></span>
-            </div>
-        </div>*@
         <div class="form-group">
             <label asp-for="Employee.LastName" class="col-md-2 control-label"></label>
             <div class="col-md-10">
@@ -26,14 +19,6 @@
                 <span asp-validation-for="Employee.LastName" class="text-danger"></span>
             </div>
         </div>
-        @*<div class="form-group">
-            <label asp-for="Department.Name" class="control-label col-md-2"></label>
-            <div class="col-md-10">
-                <select asp-for="Department.DepartmentId" class="form-control" asp-items=""></select>
-                <span asp-validation-for="Department.DepartmentId" class="text-danger"></span>
-            </div>
-            <div>@Html.DisplayFor(model => model.Department.DepartmentId)</div>
-        </div>*@
         @{ 
             List<SelectListItem> departmetListItems = new List<SelectListItem>();
             foreach(var dept in Model.DepartmentList)
@@ -47,53 +32,42 @@
 
             }
         }
-        @Html.DropDownList("Departments", departmetListItems, "Select a Department")
+        @{
+            List<SelectListItem> trainingListItems = new List<SelectListItem>();
+            foreach (var prog in Model.OtherPrograms)
+            {
+                trainingListItems.Add(new SelectListItem
+                {
+                    Text = prog.Name,
+                    Value = prog.TrainingProgramId.ToString()
+                });
+
+            }
+        }
         @{ 
             List<SelectListItem> computerListItems = new List<SelectListItem>();
-            foreach(var comp in Model.Computer)
+            foreach(var comp in Model.OtherComputers)
             {
                 computerListItems.Add(new SelectListItem
                 {
-                    Text = comp.Make,
+                    Text = comp.Manufacturer + " " + comp.Make,
                     Value = comp.ComputerId.ToString()
-
                 });
-
             }
         }
-        
-        @Html.Label("Testing-Computers")
+        @Html.DropDownList("Departments", departmetListItems, "Select a Department")
         
         @Html.DropDownList("Computers", computerListItems, "Select a Computer")
-        
-        @{ 
-            List<SelectListItem> programListItems = new List<SelectListItem>();
-            foreach(var tpro in Model.TrainingPrograms)
-            {
-                programListItems.Add(new SelectListItem
-                {
-                    Text = tpro.Name,
-                    Value = tpro.TrainingProgramId.ToString()
-
-                });
-
-            }
+        @foreach(var comp in Model.Computer)
+        {
+            <div>@comp.Manufacturer @comp.Make</div>
         }
-        @Html.ListBox("Training Programs", programListItems, "Select a Training Program")
-        <div class="form-group">
-            <label asp-for="Computer" class="control-label col-md-2"></label>
-            <div class="col-md-10">
-                <select asp-for="Computer" class="form-control" asp-items="ViewBag.ComputerMake"></select>
-                <span asp-validation-for="Computer" class="text-danger"></span>
-            </div>
-        </div>
-        <div class="form-group">
-            <label asp-for="TrainingPrograms" class="control-label col-md-2"></label>
-            <div class="col-md-10">
-                <select asp-for="TrainingPrograms" class="form-control" asp-items="ViewBag.TrainingProgram"></select>
-                <span asp-validation-for="TrainingPrograms" class="text-danger"></span>
-            </div>
-        </div>
+
+        @Html.DropDownList("Training Programs", trainingListItems, "Select a Training Program")
+        @foreach (var prog in Model.TrainingPrograms)
+        {
+            <div>@prog.Name</div>
+        }
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" value="Save" class="btn btn-default" />

@@ -101,50 +101,39 @@ namespace HandsomeHedgehogHoedown.Controllers
             {
                 return NotFound();
             }
-
-            //var employee = await _context.Employee.SingleOrDefaultAsync(m => m.EmployeeId == id);
-            //if (employee == null)
-            //{
-            //    return NotFound();
-            //}
-            //ViewData["DepartmentId"] = new SelectList(_context.Department, "DepartmentId", "Name", employee.DepartmentId);
-            //return View(employee);
-
-
+            
             empDetail.Employee = await _context.Employee
                 .Include(e => e.EmployeeComputers)
                 .Include(t => t.EmployeeTrainings)
                 .SingleOrDefaultAsync(m => m.EmployeeId == id);
-            empDetail.DepartmentList = _context.Department.ToList();
-            empDetail.Computer = _context.Computer
-                .Include(ec => ec.EmployeeComputers).ToList();
-            empDetail.TrainingPrograms = _context.TrainingProgram
-                .Include(et => et.EmployeeTrainings).ToList();
-            //foreach (var item in empDetail.Employee.EmployeeComputers)
-            //{
-            //    Computer computer = await _context.Computer
-            //    .SingleOrDefaultAsync(c => c.ComputerId == item.ComputerId);
-            //    empDetail.Computer.Add(computer);
-            //}
-
-            //foreach (var item in empDetail.Employee.EmployeeTrainings)
-            //{
-            //    TrainingProgram trainingProgram = await _context.TrainingProgram
-            //    .SingleOrDefaultAsync(tp => tp.TrainingProgramId == item.TrainingProgramId);
-            //    empDetail.TrainingPrograms.Add(trainingProgram);
-            //}
-
-            //empDetail.Department = await _context.Department
-            //    .SingleOrDefaultAsync(d => d.DepartmentId == empDetail.Employee.DepartmentId);
-
+            empDetail.DepartmentList = await _context.Department.ToListAsync();
+            foreach(TrainingProgram t in _context.TrainingProgram)
+            {
+                if(empDetail.Employee.EmployeeTrainings.Any(et => et.TrainingProgramId == t.TrainingProgramId))
+                {
+                    empDetail.TrainingPrograms.Add(t);
+                } else
+                {
+                    empDetail.OtherPrograms.Add(t);
+                }
+            }
+            foreach (Computer c in _context.Computer)
+            {
+                if (empDetail.Employee.EmployeeComputers.Any(ec => ec.ComputerId == c.ComputerId))
+                {
+                    empDetail.Computer.Add(c);
+                }
+                else if(!_context.EmployeeComputer.Any(ec => ec.ComputerId == c.ComputerId) || !_context.EmployeeComputer.Any(ec => ec.EndDate != null && ec.ComputerId == c.ComputerId))
+                {
+                    empDetail.OtherComputers.Add(c);
+                }
+            }
 
             if (empDetail == null)
             {
                 return NotFound();
             }
-            //PopulateDapartmentsDropDownList(empDetail.Employee.DepartmentId);
-            //PopulateComputerDropDownList(empDetail.Computer);
-            //PopulateTrainingDropDownList();
+
             return View(empDetail);
         }
 
