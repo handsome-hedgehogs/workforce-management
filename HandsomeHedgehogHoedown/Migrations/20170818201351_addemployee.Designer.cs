@@ -8,9 +8,10 @@ using HandsomeHedgehogHoedown.Models;
 namespace HandsomeHedgehogHoedown.Migrations
 {
     [DbContext(typeof(HandsomeHedgehogHoedownContext))]
-    partial class HandsomeHedgehogHoedownContextModelSnapshot : ModelSnapshot
+    [Migration("20170818201351_addemployee")]
+    partial class addemployee
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.2")

@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace HandsomeHedgehogHoedown.Migrations
 {
-    public partial class initialMigration : Migration
+    public partial class tamelasStuff : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -15,6 +15,7 @@ namespace HandsomeHedgehogHoedown.Migrations
                 {
                     ComputerId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    DecommissionedDate = table.Column<DateTime>(nullable: true),
                     Make = table.Column<string>(maxLength: 20, nullable: false),
                     Manufacturer = table.Column<string>(maxLength: 20, nullable: false),
                     PurchaseDate = table.Column<DateTime>(nullable: false)
@@ -59,6 +60,7 @@ namespace HandsomeHedgehogHoedown.Migrations
                 {
                     EmployeeId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    DateStart = table.Column<DateTime>(nullable: false),
                     DepartmentId = table.Column<int>(nullable: false),
                     FirstName = table.Column<string>(maxLength: 20, nullable: false),
                     LastName = table.Column<string>(maxLength: 50, nullable: false)

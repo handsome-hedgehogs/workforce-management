@@ -8,8 +8,8 @@ using HandsomeHedgehogHoedown.Models;
 namespace HandsomeHedgehogHoedown.Migrations
 {
     [DbContext(typeof(HandsomeHedgehogHoedownContext))]
-    [Migration("20170818151556_initialMigration")]
-    partial class initialMigration
+    [Migration("20170822214135_InitialMigrarions")]
+    partial class InitialMigrarions
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -64,6 +64,8 @@ namespace HandsomeHedgehogHoedown.Migrations
                     b.Property<string>("LastName")
                         .IsRequired()
                         .HasMaxLength(50);
+
+                    b.Property<DateTime>("StartDate");
 
                     b.HasKey("EmployeeId");
 

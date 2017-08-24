@@ -8,8 +8,8 @@ using HandsomeHedgehogHoedown.Models;
 namespace HandsomeHedgehogHoedown.Migrations
 {
     [DbContext(typeof(HandsomeHedgehogHoedownContext))]
-    [Migration("20170818163201_AddedDateSTart")]
-    partial class AddedDateSTart
+    [Migration("20170823151108_tamelasStuff")]
+    partial class tamelasStuff
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -21,6 +21,8 @@ namespace HandsomeHedgehogHoedown.Migrations
                 {
                     b.Property<int>("ComputerId")
                         .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime?>("DecommissionedDate");
 
                     b.Property<string>("Make")
                         .IsRequired()

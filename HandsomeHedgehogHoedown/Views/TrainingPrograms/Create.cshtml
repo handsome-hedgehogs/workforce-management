@@ -4,7 +4,7 @@
     ViewData["Title"] = "Create";
 }
 
-<h2>Create</h2>
+<h2>Create New Program</h2>
 
 <form asp-action="Create">
     <div class="form-horizontal">
@@ -35,7 +35,7 @@
         <div class="form-group">
             <label asp-for="MaxCapacity" class="col-md-2 control-label"></label>
             <div class="col-md-10">
-                <input asp-for="MaxCapacity" class="form-control" />
+                <input asp-for="MaxCapacity" class="form-control" min="1"/>
                 <span asp-validation-for="MaxCapacity" class="text-danger"></span>
             </div>
         </div>

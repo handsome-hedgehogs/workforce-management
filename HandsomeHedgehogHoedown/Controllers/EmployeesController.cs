@@ -43,7 +43,8 @@ namespace HandsomeHedgehogHoedown.Controllers
                 .Include(e => e.EmployeeComputers)
                 .Include(t => t.EmployeeTrainings)
                 .SingleOrDefaultAsync(m => m.EmployeeId == id);
-            foreach(var item in empDetail.Employee.EmployeeComputers)
+            
+            foreach (var item in empDetail.Employee.EmployeeComputers)
             {
                 Computer computer = await _context.Computer
                 .SingleOrDefaultAsync(c => c.ComputerId == item.ComputerId);
@@ -80,7 +81,7 @@ namespace HandsomeHedgehogHoedown.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("EmployeeId,FirstName,LastName,DepartmentId")] Employee employee)
+        public async Task<IActionResult> Create([Bind("EmployeeId,FirstName,LastName,DepartmentId,DateStart")] Employee employee)
         {
             if (ModelState.IsValid)
             {
@@ -142,7 +143,7 @@ namespace HandsomeHedgehogHoedown.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("EmployeeId,FirstName,LastName,DepartmentId")] Employee employee)
+        public async Task<IActionResult> Edit(int id, [Bind("EmployeeId,FirstName,LastName,DepartmentId,DateStart")] Employee employee)
         {
             if (id != employee.EmployeeId)
             {
