@@ -1,4 +1,4 @@
-@model HandsomeHedgehogHoedown.Models.Employee
+@model HandsomeHedgehogHoedown.ViewModels.EmployeeDetailViewModel
 
 @{
     ViewData["Title"] = "Edit";
@@ -11,26 +11,87 @@
         <h4>Employee</h4>
         <hr />
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-    <input type="hidden" asp-for="EmployeeId" />
-        <div class="form-group">
+    <input type="hidden" asp-for="Employee.EmployeeId" />
+        @*<div class="form-group">
             <label asp-for="FirstName" class="col-md-2 control-label"></label>
             <div class="col-md-10">
                 <input asp-for="FirstName" class="form-control" />
                 <span asp-validation-for="FirstName" class="text-danger"></span>
             </div>
-        </div>
+        </div>*@
         <div class="form-group">
-            <label asp-for="LastName" class="col-md-2 control-label"></label>
+            <label asp-for="Employee.LastName" class="col-md-2 control-label"></label>
             <div class="col-md-10">
-                <input asp-for="LastName" class="form-control" />
-                <span asp-validation-for="LastName" class="text-danger"></span>
+                <input asp-for="Employee.LastName" class="form-control" />
+                <span asp-validation-for="Employee.LastName" class="text-danger"></span>
+            </div>
+        </div>
+        @*<div class="form-group">
+            <label asp-for="Department.Name" class="control-label col-md-2"></label>
+            <div class="col-md-10">
+                <select asp-for="Department.DepartmentId" class="form-control" asp-items=""></select>
+                <span asp-validation-for="Department.DepartmentId" class="text-danger"></span>
+            </div>
+            <div>@Html.DisplayFor(model => model.Department.DepartmentId)</div>
+        </div>*@
+        @{ 
+            List<SelectListItem> departmetListItems = new List<SelectListItem>();
+            foreach(var dept in Model.DepartmentList)
+            {
+                departmetListItems.Add(new SelectListItem
+                {
+                    Text = dept.Name,
+                    Value = dept.DepartmentId.ToString()
+
+                });
+
+            }
+        }
+        @Html.DropDownList("Departments", departmetListItems, "Select a Department")
+        @{ 
+            List<SelectListItem> computerListItems = new List<SelectListItem>();
+            foreach(var comp in Model.Computer)
+            {
+                computerListItems.Add(new SelectListItem
+                {
+                    Text = comp.Make,
+                    Value = comp.ComputerId.ToString()
+
+                });
+
+            }
+        }
+        
+        @Html.Label("Testing-Computers")
+        
+        @Html.DropDownList("Computers", computerListItems, "Select a Computer")
+        
+        @{ 
+            List<SelectListItem> programListItems = new List<SelectListItem>();
+            foreach(var tpro in Model.TrainingPrograms)
+            {
+                programListItems.Add(new SelectListItem
+                {
+                    Text = tpro.Name,
+                    Value = tpro.TrainingProgramId.ToString()
+
+                });
+
+            }
+        }
+        @Html.ListBox("Training Programs", programListItems, "Select a Training Program")
+        <div class="form-group">
+            <label asp-for="Computer" class="control-label col-md-2"></label>
+            <div class="col-md-10">
+                <select asp-for="Computer" class="form-control" asp-items="ViewBag.ComputerMake"></select>
+                <span asp-validation-for="Computer" class="text-danger"></span>
             </div>
         </div>
         <div class="form-group">
-            <label asp-for="DepartmentId" class="control-label col-md-2"></label>
+            <label asp-for="TrainingPrograms" class="control-label col-md-2"></label>
             <div class="col-md-10">
-                <select asp-for="DepartmentId" class="form-control" asp-items="ViewBag.DepartmentId"></select>
-                <span asp-validation-for="DepartmentId" class="text-danger"></span>
+                <select asp-for="TrainingPrograms" class="form-control" asp-items="ViewBag.TrainingProgram"></select>
+                <span asp-validation-for="TrainingPrograms" class="text-danger"></span>
             </div>
         </div>
         <div class="form-group">

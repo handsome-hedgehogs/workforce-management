@@ -16,12 +16,15 @@ namespace HandsomeHedgehogHoedown.ViewModels
 
         public Department Department { get; set; }
 
+        public List<Department> DepartmentList { get; set; }
+
         public List<Computer> Computer { get; set; }
 
         public List<TrainingProgram> TrainingPrograms { get; set; }
 
         public EmployeeDetailViewModel()
         {
+            DepartmentList = new List<Department>();
             Computer = new List<Computer>();
             TrainingPrograms = new List<TrainingProgram>();
         }
