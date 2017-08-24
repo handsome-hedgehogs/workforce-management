@@ -41,13 +41,45 @@
                 departmetListItems.Add(new SelectListItem
                 {
                     Text = dept.Name,
-                    Value = dept.Name
+                    Value = dept.DepartmentId.ToString()
 
                 });
 
             }
         }
         @Html.DropDownList("Departments", departmetListItems, "Select a Department")
+        @{ 
+            List<SelectListItem> computerListItems = new List<SelectListItem>();
+            foreach(var comp in Model.Computer)
+            {
+                computerListItems.Add(new SelectListItem
+                {
+                    Text = comp.Make,
+                    Value = comp.ComputerId.ToString()
+
+                });
+
+            }
+        }
+        
+        @Html.Label("Testing-Computers")
+        
+        @Html.DropDownList("Computers", computerListItems, "Select a Computer")
+        
+        @{ 
+            List<SelectListItem> programListItems = new List<SelectListItem>();
+            foreach(var tpro in Model.TrainingPrograms)
+            {
+                programListItems.Add(new SelectListItem
+                {
+                    Text = tpro.Name,
+                    Value = tpro.TrainingProgramId.ToString()
+
+                });
+
+            }
+        }
+        @Html.ListBox("Training Programs", programListItems, "Select a Training Program")
         <div class="form-group">
             <label asp-for="Computer" class="control-label col-md-2"></label>
             <div class="col-md-10">

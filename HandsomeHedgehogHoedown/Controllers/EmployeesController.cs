@@ -118,6 +118,8 @@ namespace HandsomeHedgehogHoedown.Controllers
             empDetail.DepartmentList = _context.Department.ToList();
             empDetail.Computer = _context.Computer
                 .Include(ec => ec.EmployeeComputers).ToList();
+            empDetail.TrainingPrograms = _context.TrainingProgram
+                .Include(et => et.EmployeeTrainings).ToList();
             //foreach (var item in empDetail.Employee.EmployeeComputers)
             //{
             //    Computer computer = await _context.Computer
@@ -125,15 +127,15 @@ namespace HandsomeHedgehogHoedown.Controllers
             //    empDetail.Computer.Add(computer);
             //}
 
-            foreach (var item in empDetail.Employee.EmployeeTrainings)
-            {
-                TrainingProgram trainingProgram = await _context.TrainingProgram
-                .SingleOrDefaultAsync(tp => tp.TrainingProgramId == item.TrainingProgramId);
-                empDetail.TrainingPrograms.Add(trainingProgram);
-            }
+            //foreach (var item in empDetail.Employee.EmployeeTrainings)
+            //{
+            //    TrainingProgram trainingProgram = await _context.TrainingProgram
+            //    .SingleOrDefaultAsync(tp => tp.TrainingProgramId == item.TrainingProgramId);
+            //    empDetail.TrainingPrograms.Add(trainingProgram);
+            //}
 
-            empDetail.Department = await _context.Department
-                .SingleOrDefaultAsync(d => d.DepartmentId == empDetail.Employee.DepartmentId);
+            //empDetail.Department = await _context.Department
+            //    .SingleOrDefaultAsync(d => d.DepartmentId == empDetail.Employee.DepartmentId);
 
 
             if (empDetail == null)
