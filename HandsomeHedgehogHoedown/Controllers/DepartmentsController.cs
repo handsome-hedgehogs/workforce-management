@@ -37,7 +37,7 @@ namespace HandsomeHedgehogHoedown.Controllers
             var department = await _context.Department
                 .SingleOrDefaultAsync(m => m.DepartmentId == id);
             // populate the list of employees with employees in that department
-            department.Employees = _context.Employee.Where(e => e.DepartmentId == id).ToList();
+            department.Employees = await _context.Employee.Where(e => e.DepartmentId == id).ToListAsync();
             if (department == null)
             {
                 return NotFound();
