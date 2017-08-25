@@ -7,6 +7,8 @@ using HandsomeHedgehogHoedown.Controllers;
 
 namespace HandsomeHedgehogHoedown.ViewModels
 {
+    // Written by Eliza Meeks, Tamerla Lerma, Jason Smith
+    // View Model for the Edit Employee view
     public class EditEmployeeViewModel
     {
         public Employee Employee { get; set; }
@@ -27,6 +29,7 @@ namespace HandsomeHedgehogHoedown.ViewModels
 
         public EmployeeComputersController EmpCT { get; set; }
 
+        // Creates and instance of the following lists everytime a new instance of this class is created.
         public EditEmployeeViewModel()
         {
             DepartmentList = new List<Department>();
