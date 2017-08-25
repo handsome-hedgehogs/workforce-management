@@ -313,6 +313,25 @@ namespace HandsomeHedgehogHoedown.Controllers
             await _context.SaveChangesAsync();
             return RedirectToAction("Index");
         }
+
+        public async Task<IActionResult> DeleteTP(int id, int empId)
+        {
+            var em = await _context.EmployeeTraining
+                        .Include(e => e.TrainingProgram)
+                        .Include(e => e.Employee)
+                        .SingleOrDefaultAsync(m => m.TrainingProgramId == id && m.EmployeeId == empId);
+            return View(em);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmedTP(int TrainingProgramId, int EmployeeId)
+        {
+            var employeeTraining = await _context.EmployeeTraining.SingleOrDefaultAsync(m => m.TrainingProgramId == TrainingProgramId && m.EmployeeId == EmployeeId);
+            _context.EmployeeTraining.Remove(employeeTraining);
+            await _context.SaveChangesAsync();
+            return RedirectToAction("Index");
+        }
     }
 }
 

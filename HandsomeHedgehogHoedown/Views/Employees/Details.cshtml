@@ -46,9 +46,10 @@
             @foreach(var comp in Model.Employee.EmployeeComputers)
             {
                
-                @if(comp.EndDate == null)
+                @if (comp.EndDate == null)
                 {
-                    @comp.Computer.Make
+                    <div>@comp.Computer.Make</div>
+
                 }
 
             }
@@ -64,9 +65,9 @@
             @foreach(var futuretp in Model.TrainingPrograms)
             {
                
-                @if(futuretp.StartDate > DateTime.Now)
+                @if (futuretp.StartDate > DateTime.Now)
                 {
-                    @futuretp.Name
+                    <div>@futuretp.Name</div>
                 }
 
             }
@@ -82,9 +83,9 @@
             @foreach(var tp in Model.TrainingPrograms)
             {
                 
-                @if(tp.EndDate < DateTime.Now)
+                @if (tp.EndDate < DateTime.Now)
                 {
-                    @tp.Name
+                    <div>@tp.Name</div>
                 }
 
             }

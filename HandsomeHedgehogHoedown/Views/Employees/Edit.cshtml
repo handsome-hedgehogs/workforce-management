@@ -77,8 +77,6 @@
                         <td>
                             @comp.Make
                         </td>
-                        <td>@comp.ComputerId</td>
-                        <td>@Model.Employee.EmployeeId</td>
                         <td>
                             <a asp-action="DeleteEC" asp-route-id="@comp.ComputerId" asp-route-empId="@Model.Employee.EmployeeId">Delete</a>
                         </td>
@@ -108,7 +106,7 @@
                             @prog.Name
                         </td>
                         <td>
-                            <a asp-action="Delete">Delete</a>
+                            <a asp-action="DeleteTP" asp-route-id="@prog.TrainingProgramId" asp-route-empId="@Model.Employee.EmployeeId">Delete</a>
                         </td>
                     </tr>
                 }
