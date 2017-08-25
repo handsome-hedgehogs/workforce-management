@@ -43,8 +43,7 @@ namespace HandsomeHedgehogHoedown.Controllers
                 .Include(e => e.EmployeeComputers)
                 .Include(t => t.EmployeeTrainings)
                 .SingleOrDefaultAsync(m => m.EmployeeId == id);
-            
-            foreach (var item in empDetail.Employee.EmployeeComputers)
+            foreach(var item in empDetail.Employee.EmployeeComputers)
             {
                 Computer computer = await _context.Computer
                 .SingleOrDefaultAsync(c => c.ComputerId == item.ComputerId);
@@ -96,18 +95,50 @@ namespace HandsomeHedgehogHoedown.Controllers
         // GET: Employees/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+            EditEmployeeViewModel empDetail = new EditEmployeeViewModel();
+
             if (id == null)
             {
                 return NotFound();
             }
 
-            var employee = await _context.Employee.SingleOrDefaultAsync(m => m.EmployeeId == id);
-            if (employee == null)
+            empDetail.Employee = await _context.Employee
+                .Include(e => e.EmployeeComputers)
+                .Include(t => t.EmployeeTrainings)
+                .SingleOrDefaultAsync(m => m.EmployeeId == id);
+            empDetail.DepartmentList = await _context.Department.ToListAsync();
+            foreach (TrainingProgram t in _context.TrainingProgram)
+            {
+                if (empDetail.Employee.EmployeeTrainings.Any(et => et.TrainingProgramId == t.TrainingProgramId))
+                {
+                    empDetail.TrainingPrograms.Add(t);
+                }
+                else if (t.StartDate >= DateTime.Today)
+                {
+                    empDetail.OtherPrograms.Add(t);
+                }
+            }
+            foreach (Computer c in _context.Computer)
+            {
+                if (c.DecommissionedDate == null || c.DecommissionedDate > DateTime.Today)
+                {
+                    if (empDetail.Employee.EmployeeComputers.Any(ec => ec.ComputerId == c.ComputerId))
+                    {
+                        empDetail.Computer.Add(c);
+                    }
+                    else if (!_context.EmployeeComputer.Any(ec => ec.ComputerId == c.ComputerId) || !_context.EmployeeComputer.Any(ec => ec.ComputerId == c.ComputerId && ec.EndDate != null || ec.EndDate > DateTime.Today))
+                    {
+                        empDetail.OtherComputers.Add(c);
+                    }
+                }
+            }
+
+            if (empDetail == null)
             {
                 return NotFound();
             }
-            ViewData["DepartmentId"] = new SelectList(_context.Department, "DepartmentId", "Name", employee.DepartmentId);
-            return View(employee);
+
+            return View(empDetail);
         }
 
         // POST: Employees/Edit/5
@@ -115,23 +146,28 @@ namespace HandsomeHedgehogHoedown.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("EmployeeId,FirstName,LastName,DepartmentId,DateStart")] Employee employee)
+        public async Task<IActionResult> Edit(int id, EditEmployeeViewModel empDetail)
         {
-            if (id != employee.EmployeeId)
+            if (id != empDetail.Employee.EmployeeId)
             {
                 return NotFound();
             }
+            
+            empDetail.EmployeeComputer.EmployeeId = empDetail.Employee.EmployeeId;
+            empDetail.EmployeeTraining.EmployeeId = empDetail.Employee.EmployeeId;
 
-            if (ModelState.IsValid)
+            if (true)
             {
                 try
                 {
-                    _context.Update(employee);
+                    _context.Update(empDetail.Employee);
+                    _context.Add(empDetail.EmployeeTraining);
+                    _context.Add(empDetail.EmployeeComputer);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!EmployeeExists(employee.EmployeeId))
+                    if (!EmployeeExists(empDetail.Employee.EmployeeId))
                     {
                         return NotFound();
                     }
@@ -142,9 +178,10 @@ namespace HandsomeHedgehogHoedown.Controllers
                 }
                 return RedirectToAction("Index");
             }
-            ViewData["DepartmentId"] = new SelectList(_context.Department, "DepartmentId", "Name", employee.DepartmentId);
-            return View(employee);
+
+            //return View(empDetail);
         }
+        
 
         // GET: Employees/Delete/5
         public async Task<IActionResult> Delete(int? id)

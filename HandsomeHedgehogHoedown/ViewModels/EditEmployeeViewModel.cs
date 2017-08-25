@@ -1,20 +1,18 @@
-﻿using System;
+﻿using HandsomeHedgehogHoedown.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using HandsomeHedgehogHoedown.Models;
-
-// Authored By: Jackie Knight
-// Created this View Model for Employee Detail
-// Including all of these instances and lists to join all the information needed when viewing a specific employee's details
 
 namespace HandsomeHedgehogHoedown.ViewModels
 {
-    public class EmployeeDetailViewModel
+    public class EditEmployeeViewModel
     {
         public Employee Employee { get; set; }
 
-        public Department Department { get; set; }
+        public EmployeeComputer EmployeeComputer { get; set; }
+
+        public EmployeeTraining EmployeeTraining { get; set; }
 
         public List<Department> DepartmentList { get; set; }
 
@@ -26,7 +24,7 @@ namespace HandsomeHedgehogHoedown.ViewModels
 
         public List<Computer> OtherComputers { get; set; }
 
-        public EmployeeDetailViewModel()
+        public EditEmployeeViewModel()
         {
             DepartmentList = new List<Department>();
             Computer = new List<Computer>();
@@ -34,5 +32,6 @@ namespace HandsomeHedgehogHoedown.ViewModels
             OtherPrograms = new List<TrainingProgram>();
             TrainingPrograms = new List<TrainingProgram>();
         }
+        
     }
 }
