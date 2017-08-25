@@ -10,9 +10,13 @@ namespace HandsomeHedgehogHoedown.ViewModels
     {
         public Employee Employee { get; set; }
 
-        public EmployeeComputer EmployeeComputer { get; set; }
+        //public EmployeeComputer EmployeeComputer { get; set; }
 
-        public EmployeeTraining EmployeeTraining { get; set; }
+        //public EmployeeTraining EmployeeTraining { get; set; }
+
+        public int? ComputerId { get; set; }
+
+        public int? TrainingId { get; set; }
 
         public List<Department> DepartmentList { get; set; }
 

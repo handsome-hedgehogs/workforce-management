@@ -8,8 +8,6 @@
         <hr />
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <input type="hidden" asp-for="Employee.EmployeeId" />
-        <input type="hidden" asp-for="EmployeeTraining" />
-        <input type="hidden" asp-for="EmployeeComputer" />
         <input type="hidden" asp-for="Employee.FirstName" />
         <div class="form-group">
             <label asp-for="Employee.LastName" class="col-md-2 control-label"></label>
@@ -58,7 +56,7 @@
         @Html.DropDownListFor(x => x.Employee.DepartmentId, departmetListItems, "Select a Department")
         <br />
         @Html.Label("Computers")
-        @Html.DropDownListFor(x => x.EmployeeComputer.ComputerId, computerListItems, "Select a Computer")
+        @Html.DropDownListFor(x => x.ComputerId, computerListItems, "Select a Computer")
         <br /><b>@Model.Employee.FirstName @Model.Employee.LastName's Computers</b>
         @foreach(var comp in Model.Computer)
         {
@@ -66,7 +64,7 @@
         }
         <br />
         @Html.Label("Training Programs")
-        @Html.DropDownListFor(x => x.EmployeeTraining.TrainingProgramId, trainingListItems, "Select a Training Program")
+        @Html.DropDownListFor(x => x.TrainingId, trainingListItems, "Select a Training Program")
         <br /><b>@Model.Employee.FirstName @Model.Employee.LastName's Training Programs</b>
         @foreach (var prog in Model.TrainingPrograms)
         {

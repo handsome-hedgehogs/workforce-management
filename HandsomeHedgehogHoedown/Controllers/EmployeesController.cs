@@ -152,34 +152,110 @@ namespace HandsomeHedgehogHoedown.Controllers
             {
                 return NotFound();
             }
-            
-            empDetail.EmployeeComputer.EmployeeId = empDetail.Employee.EmployeeId;
-            empDetail.EmployeeTraining.EmployeeId = empDetail.Employee.EmployeeId;
-
-            if (true)
+            if (empDetail.ComputerId != null && empDetail.TrainingId != null)
             {
-                try
-                {
-                    _context.Update(empDetail.Employee);
-                    _context.Add(empDetail.EmployeeTraining);
-                    _context.Add(empDetail.EmployeeComputer);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!EmployeeExists(empDetail.Employee.EmployeeId))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction("Index");
-            }
+                EmployeeComputer employeeComputer = new EmployeeComputer() { EmployeeId = empDetail.Employee.EmployeeId, ComputerId = empDetail.ComputerId ?? default(int) };
+                EmployeeTraining employeeTraining = new EmployeeTraining() { EmployeeId = empDetail.Employee.EmployeeId, TrainingProgramId = empDetail.TrainingId ?? default(int) };
 
-            //return View(empDetail);
+                if (ModelState.IsValid)
+                {
+                    try
+                    {
+                        _context.Update(empDetail.Employee);
+                        _context.Add(employeeComputer);
+                        _context.Add(employeeTraining);
+                        await _context.SaveChangesAsync();
+                    }
+                    catch (DbUpdateConcurrencyException)
+                    {
+                        if (!EmployeeExists(empDetail.Employee.EmployeeId))
+                        {
+                            return NotFound();
+                        }
+                        else
+                        {
+                            throw;
+                        }
+                    }
+                    return RedirectToAction("Index");
+                }
+            } else if (empDetail.ComputerId == null && empDetail.TrainingId != null)
+            {
+                EmployeeTraining employeeTraining = new EmployeeTraining() { EmployeeId = empDetail.Employee.EmployeeId, TrainingProgramId = empDetail.TrainingId ?? default(int) };
+
+                if (ModelState.IsValid)
+                {
+                    try
+                    {
+                        _context.Update(empDetail.Employee);
+                        _context.Add(employeeTraining);
+                        await _context.SaveChangesAsync();
+                    }
+                    catch (DbUpdateConcurrencyException)
+                    {
+                        if (!EmployeeExists(empDetail.Employee.EmployeeId))
+                        {
+                            return NotFound();
+                        }
+                        else
+                        {
+                            throw;
+                        }
+                    }
+                        return RedirectToAction("Index");
+                }
+            } else if (empDetail.ComputerId != null && empDetail.TrainingId == null)
+            {
+                EmployeeComputer employeeComputer = new EmployeeComputer() { EmployeeId = empDetail.Employee.EmployeeId, ComputerId = empDetail.ComputerId ?? default(int) };
+
+                if (ModelState.IsValid)
+                {
+                    try
+                    {
+                        _context.Update(empDetail.Employee);
+                        _context.Add(employeeComputer);
+                        await _context.SaveChangesAsync();
+                    }
+                    catch (DbUpdateConcurrencyException)
+                    {
+                        if (!EmployeeExists(empDetail.Employee.EmployeeId))
+                        {
+                            return NotFound();
+                        }
+                        else
+                        {
+                            throw;
+                        }
+                    }
+                    return RedirectToAction("Index");
+                }
+            }
+            else if (empDetail.ComputerId == null && empDetail.TrainingId == null)
+            {
+
+                if (ModelState.IsValid)
+                {
+                    try
+                    {
+                        _context.Update(empDetail.Employee);
+                        await _context.SaveChangesAsync();
+                    }
+                    catch (DbUpdateConcurrencyException)
+                    {
+                        if (!EmployeeExists(empDetail.Employee.EmployeeId))
+                        {
+                            return NotFound();
+                        }
+                        else
+                        {
+                            throw;
+                        }
+                    }
+                    return RedirectToAction("Index");
+                }
+            }
+            
+            return RedirectToAction("Index");
         }
         
 
