@@ -297,6 +297,13 @@ namespace HandsomeHedgehogHoedown.Controllers
             return _context.Employee.Any(e => e.EmployeeId == id);
         }
 
+
+        // Update method called from Edit Employee View delete button for computers assigned to an employee
+        // accepts ComputerId and EmplyeeId as arguments
+        // will return view of DeleteEC html view to confirm delete
+        // query checks joined table of employeecomputer to see if there is a computer with a corresponding employeeID
+        // if true select that row in joined table
+        // Authored by : Tamela Lerma
         public async Task<IActionResult> DeleteEC(int id, int empId)
         {
             var em = await _context.EmployeeComputer
@@ -306,6 +313,12 @@ namespace HandsomeHedgehogHoedown.Controllers
             return View(em);
         }
 
+        // Once page is directed to confirm delete
+        // Database is called to update EndDate to current DateTime on Employeecomputer table
+        // Once end date is added, this computer will no longer be displayed as an assigned computer for that employee
+        // DeleteEC template calls this method once user clicks yes to confirm delete
+        // ComputerId and EmployeeId are passed in to reference the JoinedTable
+        // Authored by : Tamela Lerma
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmedEC(int ComputerId, int EmployeeId)
@@ -317,6 +330,12 @@ namespace HandsomeHedgehogHoedown.Controllers
             return RedirectToAction("Index");
         }
 
+        // Delete method called from Edit Employee View delete button for Training Programs assigned to an employee
+        // accepts TrainingProgramId and EmplyeeId as arguments
+        // will return view of DeleteTP html view to confirm delete
+        // query checks joined table of EmployeeTraining to see if there is a program with a corresponding employeeID
+        // if true select that row in joined table
+        // Authored by : Eliza Meeks
         public async Task<IActionResult> DeleteTP(int id, int empId)
         {
             var em = await _context.EmployeeTraining
@@ -326,6 +345,12 @@ namespace HandsomeHedgehogHoedown.Controllers
             return View(em);
         }
 
+        // Once page is directed to confirm delete
+        // Database is called to Delete row  on EmployeeTraining table
+        // Once deleted, this program will no longer have this employee assigned to it
+        // DeleteTP template calls DeleteConfirmedTP method once user clicks yes to confirm delete
+        // TrainingProgramId and EmployeeId are passed in to reference the JoinedTable
+        // Authored by : Eliza Meeks
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmedTP(int TrainingProgramId, int EmployeeId)
