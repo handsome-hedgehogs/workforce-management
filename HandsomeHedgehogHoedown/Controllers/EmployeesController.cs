@@ -122,11 +122,11 @@ namespace HandsomeHedgehogHoedown.Controllers
             {
                 if (c.DecommissionedDate == null || c.DecommissionedDate > DateTime.Today)
                 {
-                    if (empDetail.Employee.EmployeeComputers.Any(ec => ec.ComputerId == c.ComputerId))
+                    if (empDetail.Employee.EmployeeComputers.Any(ec => ec.ComputerId == c.ComputerId && ec.EndDate == null))
                     {
                         empDetail.Computer.Add(c);
                     }
-                    else if (!_context.EmployeeComputer.Any(ec => ec.ComputerId == c.ComputerId) || !_context.EmployeeComputer.Any(ec => ec.ComputerId == c.ComputerId && ec.EndDate != null || ec.EndDate > DateTime.Today))
+                    else if (!_context.EmployeeComputer.Any(ec => ec.ComputerId == c.ComputerId) || !_context.EmployeeComputer.Any(ec => ec.ComputerId == c.ComputerId && ec.EndDate != null || ec.EndDate >= DateTime.Today))
                     {
                         empDetail.OtherComputers.Add(c);
                     }
@@ -293,5 +293,26 @@ namespace HandsomeHedgehogHoedown.Controllers
         {
             return _context.Employee.Any(e => e.EmployeeId == id);
         }
+
+        public async Task<IActionResult> DeleteEC(int id, int empId)
+        {
+            var em = await _context.EmployeeComputer
+                        .Include(e => e.Computer)
+                        .Include(e => e.Employee)
+                        .SingleOrDefaultAsync(m => m.ComputerId == id && m.EmployeeId == empId);
+            return View(em);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmedEC(int ComputerId, int EmployeeId)
+        {
+            var employeeComputer = await _context.EmployeeComputer.SingleOrDefaultAsync(m => m.ComputerId == ComputerId && m.EmployeeId == EmployeeId);
+            employeeComputer.EndDate = DateTime.Today;
+            _context.EmployeeComputer.Update(employeeComputer);
+            await _context.SaveChangesAsync();
+            return RedirectToAction("Index");
+        }
     }
 }
+

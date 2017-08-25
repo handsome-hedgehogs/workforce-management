@@ -16,9 +16,9 @@
                 <span asp-validation-for="Employee.LastName" class="text-danger"></span>
             </div>
         </div>
-        @{ 
+        @{
             List<SelectListItem> departmetListItems = new List<SelectListItem>();
-            foreach(var dept in Model.DepartmentList)
+            foreach (var dept in Model.DepartmentList)
             {
                 departmetListItems.Add(new SelectListItem
                 {
@@ -41,9 +41,9 @@
 
             }
         }
-        @{ 
+        @{
             List<SelectListItem> computerListItems = new List<SelectListItem>();
-            foreach(var comp in Model.OtherComputers)
+            foreach (var comp in Model.OtherComputers)
             {
                 computerListItems.Add(new SelectListItem
                 {
@@ -57,7 +57,7 @@
         <br />
         @Html.Label("Computers")
         @Html.DropDownListFor(x => x.ComputerId, computerListItems, "Select a Computer")
-        
+
         <table class="table">
             <thead>
                 <tr>
@@ -90,6 +90,7 @@
         <br />
         @Html.Label("Training Programs")
         @Html.DropDownListFor(x => x.TrainingId, trainingListItems, "Select a Training Program")
+
         <table class="table">
             <thead>
                 <tr>
@@ -120,6 +121,7 @@
         </div>
     </div>
 </form>
+
 
 <div>
     <a asp-action="Index">Back to List</a>

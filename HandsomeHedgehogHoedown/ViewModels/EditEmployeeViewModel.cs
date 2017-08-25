@@ -3,16 +3,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using HandsomeHedgehogHoedown.Controllers;
 
 namespace HandsomeHedgehogHoedown.ViewModels
 {
     public class EditEmployeeViewModel
     {
         public Employee Employee { get; set; }
-
-        //public EmployeeComputer EmployeeComputer { get; set; }
-
-        //public EmployeeTraining EmployeeTraining { get; set; }
 
         public int? ComputerId { get; set; }
 
@@ -27,6 +24,8 @@ namespace HandsomeHedgehogHoedown.ViewModels
         public List<TrainingProgram> OtherPrograms { get; set; }
 
         public List<Computer> OtherComputers { get; set; }
+
+        public EmployeeComputersController EmpCT { get; set; }
 
         public EditEmployeeViewModel()
         {
