@@ -1,8 +1,4 @@
-@model HandsomeHedgehogHoedown.Models.Employee
-
-@{
-    ViewData["Title"] = "Edit";
-}
+@model HandsomeHedgehogHoedown.ViewModels.EditEmployeeViewModel
 
 <h2>Edit</h2>
 
@@ -11,28 +7,111 @@
         <h4>Employee</h4>
         <hr />
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-    <input type="hidden" asp-for="EmployeeId" />
+        <input type="hidden" asp-for="Employee.EmployeeId" />
+        <input type="hidden" asp-for="Employee.FirstName" />
         <div class="form-group">
-            <label asp-for="FirstName" class="col-md-2 control-label"></label>
+            <label asp-for="Employee.LastName" class="col-md-2 control-label"></label>
             <div class="col-md-10">
-                <input asp-for="FirstName" class="form-control" />
-                <span asp-validation-for="FirstName" class="text-danger"></span>
+                <input asp-for="Employee.LastName" class="form-control" />
+                <span asp-validation-for="Employee.LastName" class="text-danger"></span>
             </div>
         </div>
-        <div class="form-group">
-            <label asp-for="LastName" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <input asp-for="LastName" class="form-control" />
-                <span asp-validation-for="LastName" class="text-danger"></span>
-            </div>
-        </div>
-        <div class="form-group">
-            <label asp-for="DepartmentId" class="control-label col-md-2"></label>
-            <div class="col-md-10">
-                <select asp-for="DepartmentId" class="form-control" asp-items="ViewBag.DepartmentId"></select>
-                <span asp-validation-for="DepartmentId" class="text-danger"></span>
-            </div>
-        </div>
+        @{
+            List<SelectListItem> departmetListItems = new List<SelectListItem>();
+            foreach (var dept in Model.DepartmentList)
+            {
+                departmetListItems.Add(new SelectListItem
+                {
+                    Text = dept.Name,
+                    Value = dept.DepartmentId.ToString()
+
+                });
+
+            }
+        }
+        @{
+            List<SelectListItem> trainingListItems = new List<SelectListItem>();
+            foreach (var prog in Model.OtherPrograms)
+            {
+                trainingListItems.Add(new SelectListItem
+                {
+                    Text = prog.Name,
+                    Value = prog.TrainingProgramId.ToString()
+                });
+
+            }
+        }
+        @{
+            List<SelectListItem> computerListItems = new List<SelectListItem>();
+            foreach (var comp in Model.OtherComputers)
+            {
+                computerListItems.Add(new SelectListItem
+                {
+                    Text = comp.Manufacturer + " " + comp.Make,
+                    Value = comp.ComputerId.ToString()
+                });
+            }
+        }
+        @Html.Label("Departments")
+        @Html.DropDownListFor(x => x.Employee.DepartmentId, departmetListItems, "Select a Department")
+        <br />
+        @Html.Label("Computers")
+        @Html.DropDownListFor(x => x.ComputerId, computerListItems, "Select a Computer")
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        @Model.Employee.FirstName @Model.Employee.LastName's Computers
+                    </th>
+                </tr>
+            </thead>
+            <tr></tr>
+            <tbody>
+                @foreach (var comp in Model.Computer)
+                {
+                    <tr>
+                        <td>
+                            @comp.Manufacturer
+                        </td>
+                        <td>
+                            @comp.Make
+                        </td>
+                        <td>
+                            <a asp-action="DeleteEC" asp-route-id="@comp.ComputerId" asp-route-empId="@Model.Employee.EmployeeId">Delete</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        <br />
+        @Html.Label("Training Programs")
+        @Html.DropDownListFor(x => x.TrainingId, trainingListItems, "Select a Training Program")
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        @Model.Employee.FirstName @Model.Employee.LastName's Training Programs
+                    </th>
+                </tr>
+            </thead>
+            <tr></tr>
+            <tbody>
+                @foreach (var prog in Model.TrainingPrograms)
+                {
+                    <tr>
+                        <td>
+                            @prog.Name
+                        </td>
+                        <td>
+                            <a asp-action="DeleteTP" asp-route-id="@prog.TrainingProgramId" asp-route-empId="@Model.Employee.EmployeeId">Delete</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" value="Save" class="btn btn-default" />
@@ -40,6 +119,7 @@
         </div>
     </div>
 </form>
+
 
 <div>
     <a asp-action="Index">Back to List</a>
