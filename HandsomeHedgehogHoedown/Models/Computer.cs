@@ -4,12 +4,12 @@ using System.ComponentModel.DataAnnotations;
 
 namespace HandsomeHedgehogHoedown.Models
 {
-    // Model tp build DB Table
-    // Includes ComputerID PF, Manufacturer, Make, PurchaseDate, and Collection of EmployeeComputer
+    // Model class to build DB table
+    // Includes ComputerID PK, Manufacturer, Make, PurchaseDate, and Collection of EmployeeComputer
     // Authored by : Jason Smith
     public class Computer
     {
-        // PK
+        // Primary Key
         [Key]
         [Display(Name ="Computer ID")]
         public int ComputerId { get; set; }
@@ -37,7 +37,7 @@ namespace HandsomeHedgehogHoedown.Models
         [Display(Name = "Decommissioned")]
         public DateTime? DecommissionedDate { get; set; }
 
-        // Collection from Joined Table EmployeeComputer to list current or passed employees per computer
+        // Collection from Joined Table EmployeeComputer to list current or past employees per computer
         public IEnumerable<EmployeeComputer> EmployeeComputers { get; set; }
 
     }
