@@ -10,7 +10,10 @@ namespace HandsomeHedgehogHoedown.ViewModels
     //Written by Eliza Meeks
     public class HomeViewModel
     {
+        // Allow us to iterate over a collection of Employees
         public IEnumerable<Employee> Employees;
+
+        // Allow us to iterate over a collection of Training Programs
         public IEnumerable<TrainingProgram> TrainingPrograms;
 
     }

@@ -6,6 +6,8 @@
 
 <h2>Details</h2>
 
+<!-- Authored By: Tamela Lerma -->
+
 <div>
     <h4>TrainingProgram</h4>
     <hr />
@@ -36,6 +38,8 @@
         </dd>
     </dl>
 </div>
+
+<!-- for each employee attending a training program, list the employee's first and last name-->
 <div><strong>Employees Attending</strong></div>
 @foreach (var i in Model.tp.EmployeeTrainings) { 
     <div>@i.Employee.FirstName @i.Employee.LastName</div>

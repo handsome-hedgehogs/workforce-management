@@ -6,6 +6,8 @@
 
 <h2>Training Programs</h2>
 
+<!-- Authored By: Tamela Lerma -->
+
 <table class="table">
     <thead>
         <tr>
@@ -26,6 +28,8 @@
         </tr>
     </thead>
     <tbody>
+
+<!-- for each training program, if the start date is greater than or equal to today's date, list its details. -->
 @foreach (var item in Model)
 {
     @if (item.StartDate >= DateTime.Today) { 
