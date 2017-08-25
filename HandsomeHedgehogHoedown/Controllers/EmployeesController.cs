@@ -96,6 +96,8 @@ namespace HandsomeHedgehogHoedown.Controllers
         }
 
         // GET: Employees/Edit/5
+        // Displays edit view that allows a user to select a new computer, training program, department or last name. Accepts the user ID as an argument, and only displays information pertinent to that user.
+        // Written by: Eliza Meeks, Jason Smith, Willie Pruitt
         public async Task<IActionResult> Edit(int? id)
         {
             EditEmployeeViewModel empDetail = new EditEmployeeViewModel();
@@ -145,8 +147,7 @@ namespace HandsomeHedgehogHoedown.Controllers
         }
 
         // POST: Employees/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // Allows user to save additions to computers and training programs, and changes to last name and department.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, EditEmployeeViewModel empDetail)
@@ -155,8 +156,12 @@ namespace HandsomeHedgehogHoedown.Controllers
             {
                 return NotFound();
             }
+            // if and if/else loops check to see what changes have been made, and only sends appropriate changes to the database.
+
+            // If both a computer and a training program are being added, add everything to the database.
             if (empDetail.ComputerId != null && empDetail.TrainingId != null)
             {
+                //Creates new instances of EmployeeComputer and EmployeeTraining to send up to the database.
                 EmployeeComputer employeeComputer = new EmployeeComputer() { EmployeeId = empDetail.Employee.EmployeeId, ComputerId = empDetail.ComputerId ?? default(int) };
                 EmployeeTraining employeeTraining = new EmployeeTraining() { EmployeeId = empDetail.Employee.EmployeeId, TrainingProgramId = empDetail.TrainingId ?? default(int) };
 
@@ -164,6 +169,7 @@ namespace HandsomeHedgehogHoedown.Controllers
                 {
                     try
                     {
+                        // Making changes to the context
                         _context.Update(empDetail.Employee);
                         _context.Add(employeeComputer);
                         _context.Add(employeeTraining);
@@ -182,14 +188,17 @@ namespace HandsomeHedgehogHoedown.Controllers
                     }
                     return RedirectToAction("Index");
                 }
+            // If only one training table is being created, only update the training program join table in the database
             } else if (empDetail.ComputerId == null && empDetail.TrainingId != null)
             {
+                // Creates a new instance of EmployeeTraining to add to the database.
                 EmployeeTraining employeeTraining = new EmployeeTraining() { EmployeeId = empDetail.Employee.EmployeeId, TrainingProgramId = empDetail.TrainingId ?? default(int) };
 
                 if (ModelState.IsValid)
                 {
                     try
                     {
+                        // Adds and saves changes to the context/database
                         _context.Update(empDetail.Employee);
                         _context.Add(employeeTraining);
                         await _context.SaveChangesAsync();
@@ -207,14 +216,17 @@ namespace HandsomeHedgehogHoedown.Controllers
                     }
                         return RedirectToAction("Index");
                 }
+             // If there's only a computer being added
             } else if (empDetail.ComputerId != null && empDetail.TrainingId == null)
             {
+                // Creates a new instance of Employee Computer to send to the database.
                 EmployeeComputer employeeComputer = new EmployeeComputer() { EmployeeId = empDetail.Employee.EmployeeId, ComputerId = empDetail.ComputerId ?? default(int) };
 
                 if (ModelState.IsValid)
                 {
                     try
                     {
+                        // Updates and saves changes to the context
                         _context.Update(empDetail.Employee);
                         _context.Add(employeeComputer);
                         await _context.SaveChangesAsync();
@@ -233,6 +245,7 @@ namespace HandsomeHedgehogHoedown.Controllers
                     return RedirectToAction("Index");
                 }
             }
+            // If no computer or training program are being added.
             else if (empDetail.ComputerId == null && empDetail.TrainingId == null)
             {
 
@@ -240,6 +253,7 @@ namespace HandsomeHedgehogHoedown.Controllers
                 {
                     try
                     {
+                        // Updates changes to the database.
                         _context.Update(empDetail.Employee);
                         await _context.SaveChangesAsync();
                     }
