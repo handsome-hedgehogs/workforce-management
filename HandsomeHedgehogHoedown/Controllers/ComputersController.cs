@@ -8,22 +8,25 @@ using HandsomeHedgehogHoedown.Models;
 
 namespace HandsomeHedgehogHoedown.Controllers
 {
+    //Computers Controller, manages Computer view interactions with Database
     public class ComputersController : Controller
     {
         private readonly HandsomeHedgehogHoedownContext _context;
-
+        //Establishes connection with the Database
         public ComputersController(HandsomeHedgehogHoedownContext context)
         {
             _context = context;    
         }
 
         // GET: Computers
+        //Returns view of a List of Computers
         public async Task<IActionResult> Index()
         {
             return View(await _context.Computer.ToListAsync());
         }
 
         // GET: Computers/Details/5
+        //Returns view of Computer with Id of Id passed in url
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -48,6 +51,7 @@ namespace HandsomeHedgehogHoedown.Controllers
         }
 
         // POST: Computers/Create
+        //Creates Computer based on bound user input from view
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -64,6 +68,7 @@ namespace HandsomeHedgehogHoedown.Controllers
         }
 
         // GET: Computers/Edit/5
+        //Returns view of editable computer information based on Id in url
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -80,6 +85,7 @@ namespace HandsomeHedgehogHoedown.Controllers
         }
 
         // POST: Computers/Edit/5
+        //Edits data of Computer based on Id in url, with user input bound from view
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -133,6 +139,7 @@ namespace HandsomeHedgehogHoedown.Controllers
         }
 
         // GET: Computers/Delete/5
+        //Returns view of computer details of computer based on Id in url
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -155,6 +162,7 @@ namespace HandsomeHedgehogHoedown.Controllers
         }
 
         // POST: Computers/Delete/5
+        //Deletes Computer from DB based on Id in url
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
@@ -164,7 +172,7 @@ namespace HandsomeHedgehogHoedown.Controllers
             await _context.SaveChangesAsync();
             return RedirectToAction("Index");
         }
-
+        //Returns true if any computer with Id in url exists
         private bool ComputerExists(int id)
         {
             return _context.Computer.Any(e => e.ComputerId == id);

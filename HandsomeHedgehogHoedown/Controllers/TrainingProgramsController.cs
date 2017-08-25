@@ -27,7 +27,7 @@ namespace HandsomeHedgehogHoedown.Controllers
         }
 
         // GET: TrainingPrograms/Details/5
-        // insert viewModel EmplyoyeeTrainingViewModel object insance
+        // insert viewModel EmplyoyeeTrainingViewModel object instance
         // ViewModel includes object instance of List<Employee> to add Employee Object that is assigned to a Training Program
         // Authored by : Tamela Lerma
         public async Task<IActionResult> Details(int? id)
@@ -85,6 +85,7 @@ namespace HandsomeHedgehogHoedown.Controllers
         }
 
         // GET: TrainingPrograms/Edit/5
+        //Return view of Employ
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -101,6 +102,7 @@ namespace HandsomeHedgehogHoedown.Controllers
         }
 
         // POST: TrainingPrograms/Edit/5
+        //Edits data of TrainingProgram based on Id in url, with user input bound from view
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -134,7 +136,7 @@ namespace HandsomeHedgehogHoedown.Controllers
             }
             return View(trainingProgram);
         }
-
+        //Returns true if TrainingProgam in url exists
         private bool TrainingProgramExists(int id)
         {
             return _context.TrainingProgram.Any(e => e.TrainingProgramId == id);

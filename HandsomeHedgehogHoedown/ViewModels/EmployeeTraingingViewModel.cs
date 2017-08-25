@@ -14,9 +14,11 @@ namespace HandsomeHedgehogHoedown.ViewModels
     {
         // Create instance of TrainingProgram Model to pass into Controller
         public TrainingProgram tp { get; set; }
+
         // Create List to add Employees that match query to
         public List<Employee> Employees {get; set;}
-        // use constructor method to creat object instance of List<Employee>
+
+        // Use constructor method to create object instance of List<Employee>
         public EmployeeTrainingViewModel()
         {
             Employees = new List<Employee>();

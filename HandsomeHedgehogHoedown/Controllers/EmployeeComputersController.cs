@@ -9,16 +9,18 @@ using HandsomeHedgehogHoedown.Models;
 
 namespace HandsomeHedgehogHoedown.Controllers
 {
+    //EmployeeComputers Controller, manages EmployeeComputer view interactions with Database
     public class EmployeeComputersController : Controller
     {
         private readonly HandsomeHedgehogHoedownContext _context;
-
+        //Establishes connection with the Database
         public EmployeeComputersController(HandsomeHedgehogHoedownContext context)
         {
             _context = context;    
         }
 
         // GET: EmployeeComputers
+        //Returns view of a List of EmployeeComputers
         public async Task<IActionResult> Index()
         {
             var handsomeHedgehogHoedownContext = _context.EmployeeComputer.Include(e => e.Computer).Include(e => e.Employee);
@@ -26,6 +28,7 @@ namespace HandsomeHedgehogHoedown.Controllers
         }
 
         // GET: EmployeeComputers/Details/5
+        //Returns view of EmployeeComputer with Id of Id in url
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
