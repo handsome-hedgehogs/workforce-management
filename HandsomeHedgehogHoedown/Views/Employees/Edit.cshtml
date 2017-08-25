@@ -58,7 +58,7 @@
         @Html.DropDownListFor(x => x.Employee.DepartmentId, departmetListItems, "Select a Department")
         <br />
         @Html.Label("Computers")
-        @Html.DropDownListFor(model => model.SelectedComputerId, computerListItems, "Select a Computer")
+        @Html.DropDownListFor(x => x.ComputerId, computerListItems, "Select a Computer")
        
         <table class="table">
             <thead>
@@ -92,7 +92,7 @@
 
         <br />
         @Html.Label("Training Programs")
-        @Html.DropDownListFor(model => model.SelectedTrainingId, trainingListItems, "Select a Training Program")
+        @Html.DropDownListFor(x => x.TrainingId, trainingListItems, "Select a Training Program")
         <br />
 
         <table class="table">

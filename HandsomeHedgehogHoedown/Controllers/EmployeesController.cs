@@ -122,7 +122,7 @@ namespace HandsomeHedgehogHoedown.Controllers
             {
                 if (c.DecommissionedDate == null || c.DecommissionedDate > DateTime.Today)
                 {
-                    if (empDetail.Employee.EmployeeComputers.Any(ec => ec.ComputerId == c.ComputerId))
+                    if (empDetail.Employee.EmployeeComputers.Any(ec => ec.ComputerId == c.ComputerId && ec.EndDate == null))
                     {
                         empDetail.Computer.Add(c);
                     }

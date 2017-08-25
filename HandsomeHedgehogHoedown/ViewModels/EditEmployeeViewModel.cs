@@ -11,9 +11,9 @@ namespace HandsomeHedgehogHoedown.ViewModels
     {
         public Employee Employee { get; set; }
 
-        public int? SelectedComputerId { get; set; }
+        public int? ComputerId { get; set; }
 
-        public int? SelectedTrainingId { get; set; }
+        public int? TrainingId { get; set; }
 
         public EmployeeComputer EmployeeComputer { get; set; }
 
