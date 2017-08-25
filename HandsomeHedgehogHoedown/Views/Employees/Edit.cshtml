@@ -58,8 +58,8 @@
         @Html.DropDownListFor(x => x.Employee.DepartmentId, departmetListItems, "Select a Department")
         <br />
         @Html.Label("Computers")
-        @Html.DropDownListFor(x => x.EmployeeComputer.ComputerId, computerListItems, "Select a Computer")
-        @*<br /><b>@Model.Employee.FirstName @Model.Employee.LastName's Computers</b>*@
+        @Html.DropDownListFor(model => model.SelectedComputerId, computerListItems, "Select a Computer")
+       
         <table class="table">
             <thead>
                 <tr>
@@ -70,9 +70,9 @@
             </thead>
             <tr></tr>
             <tbody>
+                <input type="hidden" asp-for="EmployeeComputer.EmployeeComputerId" />
                 @foreach (var comp in Model.Computer)
-            {
-                    @*<div>@comp.Manufacturer @comp.Make</div>*@
+                 {
                     <tr>
                         <td>
                             @comp.Manufacturer
@@ -80,24 +80,26 @@
                         <td>
                             @comp.Make
                         </td>
+                        <td>@comp.ComputerId</td>
+                        <td>@Model.Employee.EmployeeId</td>
                         <td>
-                            <a asp-action="Delete">Delete</a>
+                            <a asp-action="DeleteEC" asp-route-id="@comp.ComputerId" asp-route-empId="@Model.Employee.EmployeeId">Delete</a>
                         </td>
                     </tr>
-                }
+                 }
             </tbody>
         </table>
 
         <br />
         @Html.Label("Training Programs")
-        @Html.DropDownListFor(x => x.EmployeeTraining.TrainingProgramId, trainingListItems, "Select a Training Program")
+        @Html.DropDownListFor(model => model.SelectedTrainingId, trainingListItems, "Select a Training Program")
         <br />
 
         <table class="table">
             <thead>
                 <tr>
                     <th>
-                        >@Model.Employee.FirstName @Model.Employee.LastName's Training Programs
+                        @Model.Employee.FirstName @Model.Employee.LastName's Training Programs
                     </th>
                 </tr>
             </thead>
