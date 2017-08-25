@@ -10,16 +10,17 @@ using HandsomeHedgehogHoedown.ViewModels;
 
 namespace HandsomeHedgehogHoedown.Controllers
 {
+    //Employees controller, manages Employee view interactions with Database
     public class EmployeesController : Controller
     {
         private readonly HandsomeHedgehogHoedownContext _context;
-
+        // Establishes connection with the Database
         public EmployeesController(HandsomeHedgehogHoedownContext context)
         {
             _context = context;    
         }
 
-        // GET: Employees
+        // GET: Employees and employees' department data
         public async Task<IActionResult> Index()
         {
             var handsomeHedgehogHoedownContext = _context.Employee.Include(e => e.Department);
@@ -70,6 +71,7 @@ namespace HandsomeHedgehogHoedown.Controllers
         }
 
         // GET: Employees/Create
+        //Populates department dropdown selector with Department
         public IActionResult Create()
         {
             ViewData["DepartmentId"] = new SelectList(_context.Department, "DepartmentId", "Name");
@@ -77,6 +79,7 @@ namespace HandsomeHedgehogHoedown.Controllers
         }
 
         // POST: Employees/Create
+        //Creates new Employee using bound user input
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
